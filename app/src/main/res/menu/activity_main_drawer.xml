@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item android:title="@string/menu_authentication">
+        <menu>
+            <item
+                android:id="@+id/nav_authorization"
+                android:icon="@drawable/ic_arrow_forward_black_24dp"
+                android:title="@string/menu_authorization" />
+            <item
+                android:id="@+id/nav_register"
+                android:icon="@drawable/ic_person_add_black_24dp"
+                android:title="@string/menu_register" />
+            <item
+                android:id="@+id/nav_exit"
+                android:title="@string/menu_exit" />
+        </menu>
+    </item>
+
+    <item android:title="@string/menu_books">
+        <menu>
+            <item
+                android:id="@+id/nav_find_books"
+                android:title="@string/menu_find_book" />
+            <item
+                android:id="@+id/nav_recommendations"
+                android:title="@string/menu_recommendations" />
+        </menu>
+    </item>
+
+    <item android:title="@string/menu_authors">
+        <menu>
+            <item
+                android:id="@+id/nav_find_authors"
+                android:title="@string/menu_find_author" />
+        </menu>
+    </item>
+
+    <item android:title="Отзывы">
+        <menu>
+            <item
+                android:id="@+id/nav_users_reviews"
+                android:title="Написанные отзывы" />
+        </menu>
+    </item>
+
+    <!--<group android:checkableBehavior="single">-->
+        <!--<item-->
+            <!--android:id="@+id/nav_camera"-->
+            <!--android:icon="@drawable/ic_menu_camera"-->
+            <!--android:title="Import" />-->
+        <!--<item-->
+            <!--android:id="@+id/nav_gallery"-->
+            <!--android:icon="@drawable/ic_menu_gallery"-->
+            <!--android:title="Gallery" />-->
+        <!--<item-->
+            <!--android:id="@+id/nav_slideshow"-->
+            <!--android:icon="@drawable/ic_menu_slideshow"-->
+            <!--android:title="Slideshow" />-->
+        <!--<item-->
+            <!--android:id="@+id/nav_manage"-->
+            <!--android:icon="@drawable/ic_menu_manage"-->
+            <!--android:title="Tools" />-->
+    <!--</group>-->
+
+    <!--<item android:title="Communicate">-->
+        <!--<menu>-->
+            <!--<item-->
+                <!--android:id="@+id/nav_share"-->
+                <!--android:icon="@drawable/ic_menu_share"-->
+                <!--android:title="Share" />-->
+            <!--<item-->
+                <!--android:id="@+id/nav_send"-->
+                <!--android:icon="@drawable/ic_menu_send"-->
+                <!--android:title="Send" />-->
+        <!--</menu>-->
+    <!--</item>-->
+
+</menu>

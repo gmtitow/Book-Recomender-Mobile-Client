@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FFF200</color>
+
+    <color name="colorForChildCategory">#CEE6C6</color>
+
+    <color name="whiteTransperent">#A0FFFFFF</color>
+
+    <color name="colorForFilters">#AADAFF</color>
+    <color name="colorLightGray">#F3F4EF</color>
+
+    <color name="colorYellow">#FFF200</color>
+    <color name="colorGray">#9A9A9A</color>
+
+    <color name="colorDarkGray">#777777</color>
+
+    <color name="colorAccent2">#3B87F5</color>
+    <color name="ic_authorization_enter_background">#707070</color>
+
+    <color name="shadowColorForBottomMenu">#20000000</color>
+
+    <color name="authorization_colorGrayClose">#50707070</color>
+    <color name="registration_colorLightGray">#28707070</color>
+    <color name="registration_colorDarkGray">#707070</color>
+</resources>

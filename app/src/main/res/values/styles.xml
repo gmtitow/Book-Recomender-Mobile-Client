@@ -1,0 +1,44 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent2</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:fontFamily">@font/tahoma</item>
+    </style>
+
+    <style name="AppNoTitleTheme" parent="@android:style/Theme.NoTitleBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:fontFamily">@font/tahoma</item>
+    </style>
+
+    <style name="generalView" parent="Base.Widget.AppCompat.ActionButton">
+        <item name="android:background">#ffffff</item>
+    </style>
+
+    <style name="layout_max_width_348">
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="CustomRating" parent="Widget.AppCompat.RatingBar.Small">
+        <item name="colorAccent">@color/colorYellow</item>
+    </style>
+
+    <style name="ThemeWithBlackAccent">
+        <item name="colorAccent">#000000</item>
+    </style>
+
+    <style name="myCustomMenuTextAppearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColorPrimaryDisableOnly">@android:color/darker_gray</item>
+        <item name="android:textColorHint">@android:color/darker_gray</item>
+    </style>
+
+</resources>
