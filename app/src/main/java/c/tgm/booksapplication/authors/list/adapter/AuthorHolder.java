@@ -3,7 +3,7 @@ package c.tgm.booksapplication.authors.list.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import c.tgm.booksapplication.books.list.adapter.INavigator;
+import c.tgm.booksapplication.interfaces.INavigator;
 import c.tgm.booksapplication.databinding.AuthorListItemBinding;
 import c.tgm.booksapplication.models.data.Author;
 
@@ -22,10 +22,10 @@ public class AuthorHolder extends RecyclerView.ViewHolder {
     public void bind(final Author author, final INavigator navigator) {
         mBinding.textFullName.setText(author.getFullName());
         
-        mBinding.buttonToBooks.setOnClickListener(new View.OnClickListener() {
+        mBinding.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navigator.showBookInfo(author.getAuthorId());
+                navigator.goById(author.getAuthorId());
             }
         });
     }

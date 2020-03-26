@@ -66,4 +66,15 @@ public abstract class AbstractResponse<SomeData> implements Serializable {
     public void setData(SomeData data) {
         this.data = data;
     }
+
+    public boolean isSuccessfull() {
+        if (this.getSuccess()==null || this.getSuccess().equals(false)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public AbstractResponse() {
+    }
 }

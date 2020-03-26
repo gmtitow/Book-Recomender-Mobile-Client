@@ -28,7 +28,7 @@
                 tools:text="Соловей Соломонов Соломонович" />
 
             <ImageButton
-                android:id="@+id/buttonToBooks"
+                android:id="@+id/button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

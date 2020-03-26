@@ -1,4 +1,4 @@
-package c.tgm.booksapplication.books.list.adapter;
+package c.tgm.booksapplication.interfaces;
 
 public interface IListLoader {
     void loadNext();

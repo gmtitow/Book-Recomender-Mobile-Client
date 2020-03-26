@@ -2,7 +2,9 @@ package c.tgm.booksapplication.models.response;
 
 import java.util.ArrayList;
 
-import c.tgm.booksapplication.models.data.Book;
+import c.tgm.booksapplication.models.data.BookList;
 
-public class BookListResponse extends PaginationResponse<ArrayList<Book>>{
+public class BookListResponse extends AbstractResponse<BookList>{
+    public BookListResponse() {
+    }
 }

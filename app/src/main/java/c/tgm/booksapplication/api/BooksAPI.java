@@ -3,15 +3,13 @@ package c.tgm.booksapplication.api;
 
 import java.util.HashMap;
 
-import c.tgm.booksapplication.models.response.AuthResponse;
 import c.tgm.booksapplication.models.response.BookInfoResponse;
-import c.tgm.booksapplication.models.response.BookListResponse;
+import c.tgm.booksapplication.models.response.BooksResponse;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 /**
@@ -28,11 +26,11 @@ public interface BooksAPI {
     public final String URL_DOWNLOAD_FILE = PREFIX + "/download/file/txt";
     
     @POST(BooksAPI.URL_FIND_BOOKS)
-    Call<BookListResponse> find(@Body HashMap<String, Object> data);
+    Call<BooksResponse> find(@Body HashMap<String, Object> data);
     
     
     @POST(BooksAPI.URL_GET_RECOMMENDS)
-    Call<BookListResponse> getRecommends(@Body HashMap<String, Object> data);
+    Call<BooksResponse> getRecommends(@Body HashMap<String, Object> data);
     
     @GET(BooksAPI.URL_GET_INFO)
     Call<BookInfoResponse> getInfo(@Query("book_id") int book_id);

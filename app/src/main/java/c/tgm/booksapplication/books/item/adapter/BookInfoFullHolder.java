@@ -2,18 +2,12 @@ package c.tgm.booksapplication.books.item.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.Locale;
-
 import c.tgm.booksapplication.R;
 import c.tgm.booksapplication.any.UserRequest;
-import c.tgm.booksapplication.books.list.adapter.INavigator;
 import c.tgm.booksapplication.databinding.BookInfoFullBinding;
-import c.tgm.booksapplication.databinding.BookListItemBinding;
-import c.tgm.booksapplication.models.data.Book;
 import c.tgm.booksapplication.models.data.BookInfo;
 
 public class BookInfoFullHolder extends RecyclerView.ViewHolder {

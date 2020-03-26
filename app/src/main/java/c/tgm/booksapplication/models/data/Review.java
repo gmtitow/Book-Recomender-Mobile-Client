@@ -24,51 +24,51 @@ public class Review implements Serializable {
     @SerializedName("review_date")
     @Expose
     private String reviewDate;
-    
+
     public Integer getReviewId() {
         return reviewId;
     }
-    
+
     public void setReviewId(Integer reviewId) {
         this.reviewId = reviewId;
     }
-    
+
     public Integer getBookId() {
         return bookId;
     }
-    
+
     public void setBookId(Integer bookId) {
         this.bookId = bookId;
     }
-    
+
     public Integer getUserId() {
         return userId;
     }
-    
+
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
-    
+
     public String getReviewText() {
         return reviewText;
     }
-    
+
     public void setReviewText(String reviewText) {
         this.reviewText = reviewText;
     }
-    
+
     public Integer getRating() {
         return rating;
     }
-    
+
     public void setRating(Integer rating) {
         this.rating = rating;
     }
-    
+
     public String getReviewDate() {
         return reviewDate;
     }
-    
+
     public void setReviewDate(String reviewDate) {
         this.reviewDate = reviewDate;
     }

@@ -17,4 +17,7 @@ abstract public class PaginationResponse<Data> extends AbstractResponse<Data> {
     public void setPagination(Pagination pagination) {
         this.pagination = pagination;
     }
+
+    public PaginationResponse() {
+    }
 }

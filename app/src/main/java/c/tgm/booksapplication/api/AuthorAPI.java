@@ -4,13 +4,9 @@ package c.tgm.booksapplication.api;
 import java.util.HashMap;
 
 import c.tgm.booksapplication.models.response.AuthorListResponse;
-import c.tgm.booksapplication.models.response.BookInfoResponse;
-import c.tgm.booksapplication.models.response.BookListResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 
 /**
  * Created by NorD on 16.11.2017.

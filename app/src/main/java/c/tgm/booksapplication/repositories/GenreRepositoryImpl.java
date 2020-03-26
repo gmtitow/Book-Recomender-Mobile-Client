@@ -33,7 +33,7 @@ public class GenreRepositoryImpl implements GenreRepository {
                     try {
                         Gson gson = new Gson();
                         resp = gson.fromJson(response.errorBody().string(),GenreResponse.class);
-                    }catch(IOException e) {
+                    }catch(Exception e) {
                         e.printStackTrace();
                         return;
                     }
@@ -50,6 +50,7 @@ public class GenreRepositoryImpl implements GenreRepository {
         
             @Override
             public void onFailure(Call<GenreResponse> call, Throwable t) {
+//                int k = 10;
             }
         });
     }

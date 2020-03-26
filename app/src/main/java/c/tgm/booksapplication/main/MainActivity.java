@@ -134,6 +134,11 @@ public class MainActivity extends AbstractActivity
                 getPresenter().navigateTo(new Screens.BookScreens(Screens.BookScreens.GET_RECOMMENDS_SCREEN));
                 break;
             }
+            case R.id.nav_book_lists:{
+
+                getPresenter().navigateTo(new Screens.BookListsScreens(Screens.BookListsScreens.LISTS_LIST_SCREEN));
+                break;
+            }
             case R.id.nav_find_authors:{
         
                 getPresenter().navigateTo(new Screens.AuthorScreens(Screens.AuthorScreens.FIND_AUTHOR_SCREEN));

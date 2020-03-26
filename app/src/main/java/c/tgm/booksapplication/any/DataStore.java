@@ -32,7 +32,7 @@ public class DataStore {
     public static final String PREF_LOGIN = "login";
     public static final String PREF_PASSWORD = "password";
     
-//    static public final SimpleDateFormat mFormatFromServer = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssZ", Locale.getDefault());
+    static public final SimpleDateFormat mFormatForTokenLifetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssZ", Locale.getDefault());
     static public final SimpleDateFormat mFormatFromServer = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ", Locale.getDefault());
     private final String DB_NAME = "rast-db";
     
@@ -165,7 +165,7 @@ public class DataStore {
     
         if (token != null && lifetime != null) {
             try {
-                Date date = mFormatFromServer.parse(lifetime);
+                Date date = mFormatForTokenLifetime.parse(lifetime);
                 Date nowdate = new Date();
             
                 if(date.after(nowdate)){

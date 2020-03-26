@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import c.tgm.booksapplication.AbstractFragment;
 import c.tgm.booksapplication.R;
 import c.tgm.booksapplication.books.list.adapter.BookListAdapter;
-import c.tgm.booksapplication.books.list.adapter.IListLoader;
-import c.tgm.booksapplication.books.list.adapter.INavigator;
+import c.tgm.booksapplication.interfaces.IListLoader;
+import c.tgm.booksapplication.interfaces.INavigator;
 import c.tgm.booksapplication.databinding.FragmentBookListBinding;
 import c.tgm.booksapplication.models.data.Book;
 import c.tgm.booksapplication.models.data.Genre;
@@ -153,7 +153,7 @@ public class BookListFragment extends AbstractFragment implements BookListView, 
     }
     
     @Override
-    public void showBookInfo(int book_id) {
+    public void goById(int book_id) {
         getPresenter().openBookInfo(book_id);
     }
 }

@@ -6,13 +6,8 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import c.tgm.booksapplication.api.AuthorAPI;
-import c.tgm.booksapplication.api.BooksAPI;
 import c.tgm.booksapplication.api.SomeController;
-import c.tgm.booksapplication.books.BookRepository;
-import c.tgm.booksapplication.books.list.BookPresenterRepo;
 import c.tgm.booksapplication.models.response.AuthorListResponse;
-import c.tgm.booksapplication.models.response.BookInfoResponse;
-import c.tgm.booksapplication.models.response.BookListResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

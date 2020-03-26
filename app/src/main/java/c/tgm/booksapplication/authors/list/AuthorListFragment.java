@@ -21,12 +21,10 @@ import java.util.ArrayList;
 import c.tgm.booksapplication.AbstractFragment;
 import c.tgm.booksapplication.R;
 import c.tgm.booksapplication.authors.list.adapter.AuthorListAdapter;
-import c.tgm.booksapplication.books.list.adapter.BookListAdapter;
-import c.tgm.booksapplication.books.list.adapter.IListLoader;
-import c.tgm.booksapplication.books.list.adapter.INavigator;
+import c.tgm.booksapplication.interfaces.IListLoader;
+import c.tgm.booksapplication.interfaces.INavigator;
 import c.tgm.booksapplication.databinding.FragmentBookListBinding;
 import c.tgm.booksapplication.models.data.Author;
-import c.tgm.booksapplication.models.data.Book;
 import c.tgm.booksapplication.models.data.Genre;
 
 public class AuthorListFragment extends AbstractFragment implements AuthorListView, IListLoader, INavigator {
@@ -151,7 +149,7 @@ public class AuthorListFragment extends AbstractFragment implements AuthorListVi
     }
     
     @Override
-    public void showBookInfo(int author_id) {
+    public void goById(int author_id) {
         getPresenter().openBooks(author_id);
     }
 }

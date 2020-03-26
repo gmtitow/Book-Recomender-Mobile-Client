@@ -10,6 +10,7 @@ import c.tgm.booksapplication.authentication.registration.confirm.RegistrationCo
 import c.tgm.booksapplication.authentication.registration.login.RegistrationLoginFragment;
 import c.tgm.booksapplication.authentication.registration.password.RegistrationPasswordFragment;
 import c.tgm.booksapplication.authors.list.AuthorListFragment;
+import c.tgm.booksapplication.book_lists.BookListsListFragment;
 import c.tgm.booksapplication.books.item.BookItemFragment;
 import c.tgm.booksapplication.books.list.BookListFragment;
 //import c.tgm.booksapplication.books.recommends.BookRecommendsFragment;
@@ -219,6 +220,39 @@ public class Screens {
                 case REVIEW_LIST_SCREEN:{
                     return ReviewListFragment.getInstance();
                 }
+                default:
+                    throw new RuntimeException("Unknown screen key!!");
+            }
+        }
+    }
+
+    public static final class BookListsScreens extends SupportAppScreen {
+
+        public static final String LISTS_LIST_SCREEN = "lists_list_screen";
+
+        private Object data = null;
+        private Object data2 = null;
+
+        public BookListsScreens(String screenkey) {
+            this.screenKey = screenkey;
+        }
+
+        public BookListsScreens(String screenkey, Object data) {
+            this.screenKey = screenkey;
+            this.data = data;
+        }
+
+        public BookListsScreens(String screenkey, Object data, Object data2) {
+            this.screenKey = screenkey;
+            this.data = data;
+            this.data2 = data2;
+        }
+
+        @Override
+        public Fragment getFragment() {
+            switch(getScreenKey()) {
+                case LISTS_LIST_SCREEN:
+                    return BookListsListFragment.getInstance();
                 default:
                     throw new RuntimeException("Unknown screen key!!");
             }

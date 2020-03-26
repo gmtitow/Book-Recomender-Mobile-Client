@@ -3,10 +3,13 @@ package c.tgm.booksapplication.review;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import c.tgm.booksapplication.books.list.adapter.INavigator;
-import c.tgm.booksapplication.databinding.ReviewListItemBinding;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import c.tgm.booksapplication.any.DataStore;
+import c.tgm.booksapplication.interfaces.INavigator;
 import c.tgm.booksapplication.databinding.ReviewWithBookListItemBinding;
-import c.tgm.booksapplication.models.data.Review;
 import c.tgm.booksapplication.models.data.ReviewWithBook;
 
 public class ReviewWithBookHolder extends RecyclerView.ViewHolder {
@@ -22,6 +25,15 @@ public class ReviewWithBookHolder extends RecyclerView.ViewHolder {
         mBinding.content.setText(review.getReview().getReviewText());
         mBinding.rating.setRating(review.getReview().getRating());
         mBinding.textRating.setText(review.getReview().getRating().toString());
+    
+        try {
+            Date date = DataStore.mFormatFromServer.parse(review.getReview().getReviewDate());
+            SimpleDateFormat reviewDateFormat = new SimpleDateFormat("d MMMM yyyy", Locale.getDefault());
+        
+            mBinding.textDate.setText(reviewDateFormat.format(date));
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
         
         if(review.getReview().getUserId() == currentUserId) {
             mBinding.btnChange.setVisibility(View.VISIBLE);
@@ -52,7 +64,7 @@ public class ReviewWithBookHolder extends RecyclerView.ViewHolder {
         mBinding.containerBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navigator.showBookInfo(review.getBookInfo().getBookId());
+                navigator.goById(review.getBookInfo().getBookId());
             }
         });
     }

@@ -31,4 +31,7 @@ public class OnlyPaginationResponse<SomeData> implements Serializable {
     public void setPagination(Pagination pagination) {
         this.pagination = pagination;
     }
+
+    public OnlyPaginationResponse() {
+    }
 }

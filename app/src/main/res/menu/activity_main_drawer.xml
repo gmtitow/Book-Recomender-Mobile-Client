@@ -27,6 +27,10 @@
             <item
                 android:id="@+id/nav_recommendations"
                 android:title="@string/menu_recommendations" />
+
+            <item
+                android:id="@+id/nav_book_lists"
+                android:title="@string/menu_book_lists" />
         </menu>
     </item>
 

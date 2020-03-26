@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import c.tgm.booksapplication.R;
-import c.tgm.booksapplication.books.list.adapter.IListLoader;
-import c.tgm.booksapplication.books.list.adapter.INavigator;
+import c.tgm.booksapplication.interfaces.IListLoader;
+import c.tgm.booksapplication.interfaces.INavigator;
 import c.tgm.booksapplication.databinding.ReviewWithBookListItemBinding;
 import c.tgm.booksapplication.models.data.ReviewWithBook;
 import c.tgm.booksapplication.review.ReviewWithBookHolder;

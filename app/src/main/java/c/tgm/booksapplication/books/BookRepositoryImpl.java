@@ -1,25 +1,15 @@
 package c.tgm.booksapplication.books;
 
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Environment;
-
 import com.google.gson.Gson;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 
-import c.tgm.booksapplication.any.UserRequest;
-import c.tgm.booksapplication.any.Utils;
 import c.tgm.booksapplication.api.BooksAPI;
 import c.tgm.booksapplication.api.SomeController;
 import c.tgm.booksapplication.books.list.BookPresenterRepo;
 import c.tgm.booksapplication.models.response.BookInfoResponse;
-import c.tgm.booksapplication.models.response.BookListResponse;
-import okhttp3.ResponseBody;
-import okhttp3.internal.Util;
+import c.tgm.booksapplication.models.response.BooksResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,14 +36,14 @@ public class BookRepositoryImpl implements BookRepository {
     
         lastCall = api.find(data);
     
-        lastCallback = new retrofit2.Callback<BookListResponse>() {
+        lastCallback = new retrofit2.Callback<BooksResponse>() {
             @Override
-            public void onResponse(Call<BookListResponse> call, Response<BookListResponse> response) {
-                BookListResponse resp;
+            public void onResponse(Call<BooksResponse> call, Response<BooksResponse> response) {
+                BooksResponse resp;
                 if (!response.isSuccessful()) {
                     try {
                         Gson gson = new Gson();
-                        resp = gson.fromJson(response.errorBody().string(),BookListResponse.class);
+                        resp = gson.fromJson(response.errorBody().string(), BooksResponse.class);
                     }catch(IOException e) {
                         e.printStackTrace();
                         return;
@@ -70,7 +60,7 @@ public class BookRepositoryImpl implements BookRepository {
             }
     
             @Override
-            public void onFailure(Call<BookListResponse> call, Throwable t) {
+            public void onFailure(Call<BooksResponse> call, Throwable t) {
                 mPresenter.onError(t.getMessage());
             }
         };
@@ -95,14 +85,14 @@ public class BookRepositoryImpl implements BookRepository {
         
         lastCall = api.getRecommends(data);
         
-        lastCallback = new retrofit2.Callback<BookListResponse>() {
+        lastCallback = new retrofit2.Callback<BooksResponse>() {
             @Override
-            public void onResponse(Call<BookListResponse> call, Response<BookListResponse> response) {
-                BookListResponse resp;
+            public void onResponse(Call<BooksResponse> call, Response<BooksResponse> response) {
+                BooksResponse resp;
                 if (!response.isSuccessful()) {
                     try {
                         Gson gson = new Gson();
-                        resp = gson.fromJson(response.errorBody().string(),BookListResponse.class);
+                        resp = gson.fromJson(response.errorBody().string(), BooksResponse.class);
                     }catch(IOException e) {
                         e.printStackTrace();
                         return;
@@ -119,7 +109,7 @@ public class BookRepositoryImpl implements BookRepository {
             }
     
             @Override
-            public void onFailure(Call<BookListResponse> call, Throwable t) {
+            public void onFailure(Call<BooksResponse> call, Throwable t) {
                 mPresenter.onError(t.getMessage());
             }
         };

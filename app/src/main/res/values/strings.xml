@@ -147,6 +147,13 @@
     <string name="menu_authors">Авторы</string>
     <string name="menu_find_author">Найти автора</string>
     <string name="edit_review">Изменить</string>
-    <string name="add_review">Создать</string>
+    <string name="add_review">Оставить отзыв</string>
     <string name="go_to_books">Go to books</string>
+    <string name="menu_book_lists">Списки книг</string>
+    <string name="inscription_list_name">Название списка</string>
+    <string name="autofill_list_name">list_name</string>
+    <string name="inscription_dialog_add_list_title">Укажите имя списка:</string>
+    <string name="text_create">Создать</string>
+    <string name="text_delete">Удалить</string>
+    <string name="dialog_warn_deleting_title">Вы действительно хотите удалить список?</string>
 </resources>

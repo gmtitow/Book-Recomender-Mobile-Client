@@ -19,8 +19,8 @@ import c.tgm.booksapplication.AbstractFragment;
 import c.tgm.booksapplication.R;
 import c.tgm.booksapplication.Screens;
 import c.tgm.booksapplication.any.DataStore;
-import c.tgm.booksapplication.books.list.adapter.IListLoader;
-import c.tgm.booksapplication.books.list.adapter.INavigator;
+import c.tgm.booksapplication.interfaces.IListLoader;
+import c.tgm.booksapplication.interfaces.INavigator;
 import c.tgm.booksapplication.databinding.FragmentUsersReviewsListBinding;
 import c.tgm.booksapplication.models.data.Review;
 import c.tgm.booksapplication.models.data.ReviewWithBook;
@@ -126,7 +126,7 @@ public class ReviewListFragment extends AbstractFragment implements ReviewListVi
     }
     
     @Override
-    public void showBookInfo(int book_id) {
+    public void goById(int book_id) {
         getPresenter().openBookInfo(book_id);
     }
 }

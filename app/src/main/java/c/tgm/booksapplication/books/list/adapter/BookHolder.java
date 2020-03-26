@@ -8,7 +8,8 @@ import com.squareup.picasso.Picasso;
 
 import c.tgm.booksapplication.R;
 import c.tgm.booksapplication.any.UserRequest;
-import c.tgm.booksapplication.databinding.BookListItemBinding;
+import c.tgm.booksapplication.databinding.BookItemBinding;
+import c.tgm.booksapplication.interfaces.INavigator;
 import c.tgm.booksapplication.models.data.Book;
 
 /**
@@ -16,9 +17,9 @@ import c.tgm.booksapplication.models.data.Book;
  */
 
 public class BookHolder extends RecyclerView.ViewHolder {
-    public BookListItemBinding mBinding;
+    public BookItemBinding mBinding;
     
-    public BookHolder(BookListItemBinding binding) {
+    public BookHolder(BookItemBinding binding) {
         super(binding.getRoot());
         mBinding = binding;
     }
@@ -40,7 +41,7 @@ public class BookHolder extends RecyclerView.ViewHolder {
         mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navigator.showBookInfo(book.getBookId());
+                navigator.goById(book.getBookId());
             }
         });
     }

@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import c.tgm.booksapplication.R;
-import c.tgm.booksapplication.databinding.BookListItemBinding;
+import c.tgm.booksapplication.databinding.BookItemBinding;
+import c.tgm.booksapplication.interfaces.IListLoader;
+import c.tgm.booksapplication.interfaces.INavigator;
 import c.tgm.booksapplication.models.data.Book;
 
 /**
@@ -46,9 +48,9 @@ public class BookListAdapter extends RecyclerView.Adapter<BookHolder> {
     
     public BookHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        BookListItemBinding binding = null;
+        BookItemBinding binding = null;
         try {
-            binding = DataBindingUtil.inflate(inflater, R.layout.book_list_item, parent, false);
+            binding = DataBindingUtil.inflate(inflater, R.layout.book_item, parent, false);
         }catch (Exception e){
             e.printStackTrace();
             throw e;

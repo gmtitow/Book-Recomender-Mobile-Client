@@ -16,13 +16,15 @@ public final class UserRequest{
     //public static final String URL_HOST = "bro4you.ru";
     //public static final String URL_HOST = "192.168.1.197";
     //public static final String URL_HOST = "192.168.2.109";
-    public static final String URL_HOST = "192.168.2.110";
+    public static final String URL_HOST = "192.168.2.104";
     //public static final String URL_HOST = "192.168.2.108";
     //public static final String URL_HOST = "192.168.2.107";
     
     public static final String URL_SERVER = URL_SCHEME + "://"+URL_HOST;
     
     public static final String URL_IMAGES_DOMAIN = URL_SCHEME + "://"+"bro4you.ru/parser";
+
+    public static final String PRIVATE = "/private";
 
     public  static final String URL_LOGIN = "/authorization";
 

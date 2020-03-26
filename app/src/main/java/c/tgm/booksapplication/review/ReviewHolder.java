@@ -3,17 +3,13 @@ package c.tgm.booksapplication.review;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.Date;
 import java.util.Locale;
 
 import c.tgm.booksapplication.any.DataStore;
 import c.tgm.booksapplication.databinding.ReviewListItemBinding;
-import c.tgm.booksapplication.databinding.ReviewWithBookListItemBinding;
 import c.tgm.booksapplication.models.data.Review;
-import c.tgm.booksapplication.models.data.ReviewWithBook;
 
 public class ReviewHolder extends RecyclerView.ViewHolder {
     public ReviewListItemBinding mBinding;
@@ -28,7 +24,7 @@ public class ReviewHolder extends RecyclerView.ViewHolder {
         mBinding.rating.setRating(review.getRating());
         mBinding.textRating.setText(review.getRating().toString());
         
-//        SimpleDateFormat mFormatFromServer = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssZ", Locale.getDefault());
+//        SimpleDateFormat mFormatForTokenLifetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssZ", Locale.getDefault());
         try {
             Date date = DataStore.mFormatFromServer.parse(review.getReviewDate());
             SimpleDateFormat reviewDateFormat = new SimpleDateFormat("d MMMM yyyy", Locale.getDefault());
