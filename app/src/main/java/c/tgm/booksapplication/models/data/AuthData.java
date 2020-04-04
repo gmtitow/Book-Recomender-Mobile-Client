@@ -3,6 +3,7 @@ package c.tgm.booksapplication.models.data;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AuthData {
@@ -13,12 +14,16 @@ public class AuthData {
     @SerializedName("token")
     @Expose
     private String token;
-    @SerializedName("life_time")
+    @SerializedName("lifetime_int")
     @Expose
-    private String lifeTime;
+    private int lifeTime;
     @SerializedName("role")
     @Expose
     private String role;
+
+    @SerializedName("lists")
+    @Expose
+    private ArrayList<BookList> lists;
     
     public Integer getUserId() {
         return userId;
@@ -36,11 +41,11 @@ public class AuthData {
         this.token = token;
     }
     
-    public String getLifeTime() {
+    public int getLifeTime() {
         return lifeTime;
     }
     
-    public void setLifeTime(String lifeTime) {
+    public void setLifeTime(int lifeTime) {
         this.lifeTime = lifeTime;
     }
     
@@ -51,5 +56,12 @@ public class AuthData {
     public void setRole(String role) {
         this.role = role;
     }
-    
+
+    public ArrayList<BookList> getLists() {
+        return lists;
+    }
+
+    public void setLists(ArrayList<BookList> lists) {
+        this.lists = lists;
+    }
 }

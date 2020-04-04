@@ -3,6 +3,7 @@ package c.tgm.booksapplication.books.list;
 import java.util.ArrayList;
 import java.util.List;
 
+import c.tgm.booksapplication.BookApplication;
 import c.tgm.booksapplication.NavigatorPresenter;
 import c.tgm.booksapplication.Screens;
 import c.tgm.booksapplication.any.DataStore;
@@ -78,7 +79,7 @@ public class BookListPresenter extends NavigatorPresenter<BookListView> implemen
     }
     
     public List<Genre> getGenres() {
-        GenreDao genreDao = DataStore.getDaoSession().getGenreDao();
+        GenreDao genreDao = BookApplication.INSTANCE.getDataStore().getDaoSession().getGenreDao();
         
         List<Genre> genres = new ArrayList<>();
         genres.add(new Genre(-1l,"Любой жанр"));

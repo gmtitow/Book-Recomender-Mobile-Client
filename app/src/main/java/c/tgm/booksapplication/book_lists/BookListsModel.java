@@ -1,20 +1,21 @@
 package c.tgm.booksapplication.book_lists;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import c.tgm.booksapplication.models.data.BookList;
 
 public class BookListsModel {
 
-    private ArrayList<BookList> curLists = new ArrayList<>();
+    private List<BookList> curLists = new ArrayList<>();
 
     private int currentListId;
 
-    public ArrayList<BookList> getCurLists() {
+    public List<BookList> getCurLists() {
         return curLists;
     }
 
-    public void setCurLists(ArrayList<BookList> curLists) {
+    public void setCurLists(List<BookList> curLists) {
         this.curLists.clear();
         this.curLists.addAll(curLists);
     }

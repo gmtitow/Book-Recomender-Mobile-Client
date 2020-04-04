@@ -33,17 +33,17 @@ public class BookListHolder extends RecyclerView.ViewHolder {
                 @Override
                 public void onClick(View v) {
                     if (enableManager.isEnable())
-                        remover.delete(list.getListId());
+                        remover.delete(list.getListId().intValue());
                 }
             });
         } else {
             mBinding.button.setImageResource(R.drawable.ic_arrow_forward_black_24dp);
 
-            mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+            mBinding.button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (enableManager.isEnable())
-                        navigator.goById(list.getListId());
+                        navigator.goById(list.getListId().intValue());
                 }
             });
         }

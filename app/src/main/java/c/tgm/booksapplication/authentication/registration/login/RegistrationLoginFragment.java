@@ -17,6 +17,7 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.PresenterType;
 
+import c.tgm.booksapplication.BookApplication;
 import c.tgm.booksapplication.R;
 import c.tgm.booksapplication.any.DataStore;
 import c.tgm.booksapplication.databinding.FragmentRegistrationLoginBinding;
@@ -67,8 +68,8 @@ public class RegistrationLoginFragment extends MvpAppCompatFragment implements R
             mBinding.editLogin.setText(getArguments().getString(REGISTER_LOGIN));
             mPresenter.rememberLogin(getArguments().getString(REGISTER_LOGIN));
         } else{
-            mBinding.editLogin.setText(DataStore.getLogin());
-            mPresenter.rememberLogin(DataStore.getLogin());
+            mBinding.editLogin.setText(BookApplication.INSTANCE.getDataStore().getLogin());
+            mPresenter.rememberLogin(BookApplication.INSTANCE.getDataStore().getLogin());
         }
     }
     

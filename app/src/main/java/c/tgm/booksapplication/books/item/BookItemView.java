@@ -11,4 +11,6 @@ public interface BookItemView extends MvpView {
     void showCreateReviewBtn();
     
     void deleteReviewFromList(int reviewId);
+
+    void bookWasAdded();
 }

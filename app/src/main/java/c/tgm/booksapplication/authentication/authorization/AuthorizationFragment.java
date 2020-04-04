@@ -92,7 +92,7 @@ public class AuthorizationFragment extends MvpAppCompatFragment implements Autho
     @Override
     public void onResume() {
         super.onResume();
-//        mBinding.editLogin.setText(DataStore.getActivationCode());
+//        mBinding.editLogin.setText(BookApplication.INSTANCE.getDataStore().getActivationCode());
     }
     
     private void setupViews(View view) {

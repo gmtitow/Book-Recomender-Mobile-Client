@@ -5,5 +5,5 @@ import java.util.ArrayList;
 import c.tgm.booksapplication.models.data.Book;
 import c.tgm.booksapplication.models.data.BookList;
 
-public class BookListsResponse extends PaginationResponse<ArrayList<BookList>>{
+public class BookListsResponse extends AbstractResponse<ArrayList<BookList>>{
 }

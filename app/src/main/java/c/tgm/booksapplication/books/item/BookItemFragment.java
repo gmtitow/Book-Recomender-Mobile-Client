@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.PresenterType;
@@ -18,10 +19,14 @@ import com.arellomobile.mvp.presenter.PresenterType;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.List;
+
 import c.tgm.booksapplication.AbstractFragment;
+import c.tgm.booksapplication.BookApplication;
 import c.tgm.booksapplication.R;
 import c.tgm.booksapplication.Screens;
 import c.tgm.booksapplication.any.DataStore;
+import c.tgm.booksapplication.book_lists.DialogAddToReadFragment;
 import c.tgm.booksapplication.books.item.adapter.ReviewListAdapter;
 import c.tgm.booksapplication.databinding.FragmentBookItemBinding;
 import c.tgm.booksapplication.events_for_bus.ReviewChanged;
@@ -30,7 +35,7 @@ import c.tgm.booksapplication.models.data.BookInfo;
 import c.tgm.booksapplication.models.data.Review;
 import c.tgm.booksapplication.review.ReviewListener;
 
-public class BookItemFragment extends AbstractFragment implements BookItemView, ReviewListener {
+public class BookItemFragment extends AbstractFragment implements BookItemView, ReviewListener, DialogAddToReadFragment.Communicator {
     
     public static final String BOOK_INFO = "BookItemFragment.author_id";
     
@@ -38,6 +43,8 @@ public class BookItemFragment extends AbstractFragment implements BookItemView, 
     BookItemPresenter mPresenter;
     
     FragmentBookItemBinding mBinding;
+
+    private BookItemFragment thisFragment = this;
     
     ReviewListAdapter mReviewAdapter;
     
@@ -78,7 +85,7 @@ public class BookItemFragment extends AbstractFragment implements BookItemView, 
         getPresenter().saveInfo(bookInfo);
         setupViews(bookInfo);
     
-        if (DataStore.isAuthorized() && !bookInfo.getReviewExists()){
+        if (BookApplication.INSTANCE.getDataStore().isAuthorized() && !bookInfo.getReviewExists()){
             this.showCreateReviewBtn();
         }
     }
@@ -89,9 +96,22 @@ public class BookItemFragment extends AbstractFragment implements BookItemView, 
             empty.setReviewId(-1);
             book.getReviews().getData().add(0, empty);
         }
+
+        View.OnClickListener addToReadListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogAddToReadFragment dialog = DialogAddToReadFragment.getInstance(getPresenter().getBookLists());
+
+                dialog.setTargetFragment(thisFragment,0);
+
+                dialog.show(getFragmentManager(),"tag");
+            }
+        };
+
+        List list = getPresenter().getBookLists();
         
         mReviewAdapter = new ReviewListAdapter(getContext(), book.getReviews().getData(),
-                DataStore.getUserId(),this, book);
+                BookApplication.INSTANCE.getDataStore().getUserId(),this, book,addToReadListener,list.size()!=0);
         
         mBinding.listReviews.setAdapter(mReviewAdapter);
         
@@ -173,7 +193,7 @@ public class BookItemFragment extends AbstractFragment implements BookItemView, 
             }
         }
         
-        if (DataStore.isAuthorized())
+        if (BookApplication.INSTANCE.getDataStore().isAuthorized())
             showCreateReviewBtn();
     }
     
@@ -197,5 +217,15 @@ public class BookItemFragment extends AbstractFragment implements BookItemView, 
                 break;
             }
         }
+    }
+
+    @Override
+    public void add(Long listId, int rating) {
+        getPresenter().addBookInList(listId,rating);
+    }
+
+    @Override
+    public void bookWasAdded() {
+        Toast.makeText(getContext(),"Книга была успешно добавлена",Toast.LENGTH_SHORT).show();
     }
 }

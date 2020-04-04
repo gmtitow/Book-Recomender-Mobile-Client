@@ -13,6 +13,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Date;
 
+import c.tgm.booksapplication.BookApplication;
 import c.tgm.booksapplication.NavigatorPresenter;
 import c.tgm.booksapplication.R;
 import c.tgm.booksapplication.any.Constants;
@@ -90,7 +91,7 @@ public class RegistrationConfirmCodePresenter extends NavigatorPresenter<Registr
         EventBus.getDefault().register(this);
         String login = "";
         if(mModel.getLogin()== null || mModel.getLogin().trim().equals("")){
-            login = DataStore.getLogin();
+            login = BookApplication.INSTANCE.getDataStore().getLogin();
         } else{
             login = mModel.getLogin();
         }
@@ -116,7 +117,7 @@ public class RegistrationConfirmCodePresenter extends NavigatorPresenter<Registr
 //    @Subscribe(threadMode = ThreadMode.MAIN)
 //    public void onRegisterSuccessEvent(RegisterActivationSuccessEvent event) {
 //        if(mContext!=null)
-//            DataStore.setRole(mContext,Constants.Roles.ROLE_USER_DEFECTIVE);
+//            BookApplication.INSTANCE.getDataStore().setRole(mContext,Constants.Roles.ROLE_USER_DEFECTIVE);
 //        EventBus.getDefault().unregister(this);
 //        EventBus.getDefault().post(new LoginEvent());
 //        getViewState().hideProgress();

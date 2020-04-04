@@ -100,7 +100,7 @@
                     tools:rating="4" />
 
                 <TextView
-                    android:id="@+id/textRating"
+                    android:id="@+id/labelRating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"

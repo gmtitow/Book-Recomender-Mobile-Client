@@ -1,18 +1,14 @@
 package c.tgm.booksapplication.api;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import c.tgm.booksapplication.models.data.BookList;
 import c.tgm.booksapplication.models.request.book_list.CommonBookListRelationRequest;
 import c.tgm.booksapplication.models.request.book_list.CommonListRequest;
-import c.tgm.booksapplication.models.response.BookInfoResponse;
 import c.tgm.booksapplication.models.response.BookListResponse;
 import c.tgm.booksapplication.models.response.BookListsResponse;
 import c.tgm.booksapplication.models.response.CommonResponse;
-import c.tgm.booksapplication.models.response.PaginationResponse;
-import okhttp3.ResponseBody;
+import c.tgm.booksapplication.models.response.ReadBookWithListsResponse;
+import c.tgm.booksapplication.models.response.ReadBooksResponse;
+import c.tgm.booksapplication.models.response.ReadBooksWithListsResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -36,6 +32,7 @@ public interface BookListsAPI {
     final String URL_ADD_BOOK_IN_LIST = PRIVATE + PREFIX + "/add/book";
     final String URL_DELETE_BOOK_FROM_LIST = PRIVATE + PREFIX + "/delete/book";
     final String URL_GET_BOOKS = PRIVATE + PREFIX + "/get/books";
+    final String URL_GET_ALL_READ_BOOKS = PRIVATE + PREFIX + "/get/books/all";
     
     @GET(BookListsAPI.URL_GET_LISTS)
     Call<BookListsResponse> getLists();
@@ -50,11 +47,16 @@ public interface BookListsAPI {
     Call<CommonResponse> deleteList(@Body CommonListRequest request);
 
     @POST(BookListsAPI.URL_ADD_BOOK_IN_LIST)
-    Call<CommonResponse> addBookInList(@Body CommonBookListRelationRequest request);
+    Call<ReadBookWithListsResponse> addBookInList(@Body CommonBookListRelationRequest request);
 
     @HTTP(method = "DELETE", path = BookListsAPI.URL_DELETE_BOOK_FROM_LIST, hasBody = true)
     Call<CommonResponse> deleteBookFromList(@Body CommonBookListRelationRequest request);
 
-    @GET(BookListsAPI.URL_GET_LISTS)
-    Call<PaginationResponse<ArrayList<BookList>>> getLists(@Query("list_id") int listId);
+    @GET(BookListsAPI.URL_GET_BOOKS)
+    Call<ReadBooksResponse> getBooksInList(@Query("list_id") int listId,
+                                           @Query("page") int page,
+                                           @Query("page_size") int pageSize);
+
+    @GET(BookListsAPI.URL_GET_ALL_READ_BOOKS)
+    Call<ReadBooksWithListsResponse> getAllReadBooks();
 }

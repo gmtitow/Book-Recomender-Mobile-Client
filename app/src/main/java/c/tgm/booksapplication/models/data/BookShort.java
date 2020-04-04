@@ -3,6 +3,8 @@ package c.tgm.booksapplication.models.data;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.greenrobot.greendao.annotation.Id;
+
 import java.util.List;
 
 import c.tgm.booksapplication.models.response.AbstractResponse;
@@ -10,23 +12,24 @@ import c.tgm.booksapplication.models.response.AbstractResponse;
 public class BookShort {
     @SerializedName("book_id")
     @Expose
-    private Integer bookId;
+    @Id
+    protected Long _id;
     @SerializedName("name")
     @Expose
-    private String name;
+    protected String name;
     @SerializedName("description")
     @Expose
-    private String description;
+    protected String description;
     @SerializedName("author_name")
     @Expose
-    private String authorName;
+    protected String authorName;
     
-    public Integer getBookId() {
-        return bookId;
+    public Long getBookId() {
+        return _id;
     }
     
-    public void setBookId(Integer bookId) {
-        this.bookId = bookId;
+    public void setBookId(Long bookId) {
+        this._id = bookId;
     }
     
     public String getName() {

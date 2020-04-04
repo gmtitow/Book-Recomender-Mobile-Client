@@ -23,6 +23,11 @@ public class BookApplication extends Application {
         mDataStore = new DataStore(this);
     }
 
+    public DataStore getDataStore() {
+        return mDataStore;
+    }
+
+
     public NavigatorHolder getNavigatorHolder() {
         return cicerone.getNavigatorHolder();
     }

@@ -20,4 +20,8 @@ public abstract class AbstractDialog<Communicator> extends DialogFragment {
                     + " must implement Communicator");
         }
     }
+
+    public Communicator getCommunicator(){
+        return mCommunicator;
+    }
 }

@@ -11,6 +11,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Date;
 
+import c.tgm.booksapplication.BookApplication;
 import c.tgm.booksapplication.R;
 import c.tgm.booksapplication.any.DataStore;
 import c.tgm.booksapplication.authentication.events.RegisterLoginInputEvent;
@@ -59,9 +60,9 @@ public class RegistrationLoginPresenter extends MvpPresenter<RegistrationLoginVi
             return;
         }
         
-        if(DataStore.isAuthorized(mContext)) {
+        if(BookApplication.INSTANCE.getDataStore().isAuthorized(mContext)) {
             if(mModel.getLogin() == null || mModel.getLogin().trim().equals("")){
-                mModel.setLogin(DataStore.getLogin());
+                mModel.setLogin(BookApplication.INSTANCE.getDataStore().getLogin());
             }
             
             if (mModel.getLogin().equals(mModel.getCurrentLogin())) {

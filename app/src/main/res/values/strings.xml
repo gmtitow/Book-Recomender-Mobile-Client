@@ -156,4 +156,10 @@
     <string name="text_create">Создать</string>
     <string name="text_delete">Удалить</string>
     <string name="dialog_warn_deleting_title">Вы действительно хотите удалить список?</string>
+    <string name="label_your_rating">Ваша оценка:</string>
+    <string name="text_add_to_read">Добавить в прочитанное</string>
+    <string name="text_add">Добавить</string>
+    <string name="inscription_dialog_set_list">Укажите список:</string>
+    <string name="text_rating">Рейтинг</string>
+    <string name="text_grade">Оценка:</string>
 </resources>

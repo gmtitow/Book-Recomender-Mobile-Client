@@ -3,6 +3,7 @@ package c.tgm.booksapplication.repositories;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -32,16 +33,22 @@ abstract public class RepositoryImpl implements Repository {
         this.lastCall.clone().enqueue(lastCallback);
     }
 
-    protected <APIData, APIResponse extends AbstractResponse<APIData>>
-    void
-    callAPIMethod (
-            Supplier<Call> ApiMethod,
-            final Class<APIResponse> APIResponseClass,
-            final Consumer<APIData> onSuccessMethod,
-            final Consumer<String> onErrorMethod
-    ) {
-        this.callAPIMethod(ApiMethod.get(),APIResponseClass,onSuccessMethod,onErrorMethod);
+
+    @Override
+    public void retry(Call call) {
+        call.clone().enqueue(lastCallback);
     }
+
+//    protected <APIData, APIResponse extends AbstractResponse<APIData>>
+//    void
+//    callAPIMethod (
+//            Supplier<Call> ApiMethod,
+//            final Class<APIResponse> APIResponseClass,
+//            final Consumer<APIData> onSuccessMethod,
+//            final BiConsumer<String,Call> onErrorMethod
+//    ) {
+//        this.callAPIMethod(ApiMethod.get(),APIResponseClass,onSuccessMethod,onErrorMethod);
+//    }
 
     protected <APIData, APIResponse extends AbstractResponse<APIData>,
             Request>
@@ -51,9 +58,10 @@ abstract public class RepositoryImpl implements Repository {
             final Request request,
             final Class<APIResponse> APIResponseClass,
             final Consumer<APIData> onSuccessMethod,
-            final Consumer<String> onErrorMethod
+            final BiConsumer<String,RepositoryCall> onErrorMethod,
+            final RepositoryCall repositoryCall
     ) {
-        this.callAPIMethod(ApiMethod.apply(request),APIResponseClass,onSuccessMethod,onErrorMethod);
+        this.callAPIMethod(ApiMethod.apply(request),APIResponseClass,onSuccessMethod,onErrorMethod,repositoryCall);
     }
 
     protected <APIData, APIResponse extends AbstractResponse<APIData>>
@@ -62,7 +70,8 @@ abstract public class RepositoryImpl implements Repository {
             Call call,
             final Class<APIResponse> APIResponseClass,
             final Consumer<APIData> onSuccessMethod,
-            final Consumer<String> onErrorMethod
+            final BiConsumer<String,RepositoryCall> onErrorMethod,
+            final RepositoryCall repositoryCall
     ) {
         this.lastCall = call;
 
@@ -83,7 +92,7 @@ abstract public class RepositoryImpl implements Repository {
                 }
 
                 if (resp.getSuccess()==null || resp.getSuccess().equals(false)) {
-                    onErrorMethod.accept(resp.getErrorDescription());
+                    onErrorMethod.accept(resp.getErrorDescription(), repositoryCall);
                 } else {
                     onSuccessMethod.accept(resp.getData());
                 }
@@ -91,7 +100,7 @@ abstract public class RepositoryImpl implements Repository {
 
             @Override
             public void onFailure(Call<APIResponse> call, Throwable t) {
-                onErrorMethod.accept(t.getMessage());
+                onErrorMethod.accept(t.getMessage(),repositoryCall);
             }
         };
 

@@ -11,6 +11,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Date;
 
+import c.tgm.booksapplication.BookApplication;
 import c.tgm.booksapplication.R;
 import c.tgm.booksapplication.any.DataStore;
 import c.tgm.booksapplication.authentication.events.RegisterEvent;
@@ -42,7 +43,7 @@ public class RegistrationPasswordPresenter extends MvpPresenter<RegistrationPass
         mContext = context;
     
         if(mModel.isAuthDataWait()){
-            DataStore.setAuthorizationInfo(context,mModel.getCurrentAuthData(), mModel.getLogin());
+            BookApplication.INSTANCE.getDataStore().setAuthorizationInfo(context,mModel.getCurrentAuthData(), mModel.getLogin());
             mModel.setAuthDataWait(false);
             mModel.setCurrentAuthData(null);
         }
@@ -76,7 +77,7 @@ public class RegistrationPasswordPresenter extends MvpPresenter<RegistrationPass
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRegisterSuccessEvent(RegisterSuccessEvent event) {
         if(mContext!= null){
-            DataStore.setAuthorizationInfo(mContext,event.getAuthData(), mModel.getLogin());
+            BookApplication.INSTANCE.getDataStore().setAuthorizationInfo(mContext,event.getAuthData(), mModel.getLogin());
             
         } else{
             mModel.setCurrentAuthData(event.getAuthData());

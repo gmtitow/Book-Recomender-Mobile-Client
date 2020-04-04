@@ -1,12 +1,20 @@
 package c.tgm.booksapplication.models.data;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Generated;
+
+@Entity
 public class BookList {
     @SerializedName("list_id")
     @Expose
-    private Integer listId;
+    @Id
+    private Long _id;
     @SerializedName("list_name")
     @Expose
     private String listName;
@@ -20,12 +28,32 @@ public class BookList {
     @Expose
     private Boolean isMain;
 
-    public Integer getListId() {
-        return listId;
+    @NonNull
+    @Override
+    public String toString() {
+        return listName;
     }
 
-    public void setListId(Integer listId) {
-        this.listId = listId;
+    @Generated(hash = 660840919)
+    public BookList(Long _id, String listName, Integer userId, String createdAt,
+            Boolean isMain) {
+        this._id = _id;
+        this.listName = listName;
+        this.userId = userId;
+        this.createdAt = createdAt;
+        this.isMain = isMain;
+    }
+
+    @Generated(hash = 1714324117)
+    public BookList() {
+    }
+    
+    public Long getListId() {
+        return _id;
+    }
+
+    public void setListId(Long listId) {
+        this._id = listId;
     }
 
     public String getListName() {
@@ -58,5 +86,13 @@ public class BookList {
 
     public void setIsMain(Boolean isMain) {
         this.isMain = isMain;
+    }
+
+    public Long get_id() {
+        return this._id;
+    }
+
+    public void set_id(Long _id) {
+        this._id = _id;
     }
 }

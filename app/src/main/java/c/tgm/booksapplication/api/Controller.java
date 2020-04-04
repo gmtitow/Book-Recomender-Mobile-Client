@@ -20,6 +20,7 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
+import c.tgm.booksapplication.BookApplication;
 import c.tgm.booksapplication.any.DataStore;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
@@ -69,7 +70,7 @@ public class Controller implements Serializable {
                     for (int j = 0; j < cookies.size(); j++) {
                         if(cookies.get(j).name().equals("PHPSESSID"))
                             Log.d(TAG,"Записал id сессии ="+cookies.get(j).value()+" в datastore");
-                            DataStore.setSessionId(cookies.get(j).value());
+                            BookApplication.INSTANCE.getDataStore().setSessionId(cookies.get(j).value());
                     }
                 }
                 
@@ -81,9 +82,9 @@ public class Controller implements Serializable {
                         cookies = new ArrayList<Cookie>();
                     
                     if(cookies.size() == 0){
-                        if(DataStore.getSessionId()!=null) {
-                            Log.d(TAG,"Записал в куки из DataStore id сессии = "+DataStore.getSessionId());
-                            Cookie cookie = Cookie.parse(url, "PHPSESSID=" + DataStore.getSessionId());
+                        if(BookApplication.INSTANCE.getDataStore().getSessionId()!=null) {
+                            Log.d(TAG,"Записал в куки из DataStore id сессии = "+BookApplication.INSTANCE.getDataStore().getSessionId());
+                            Cookie cookie = Cookie.parse(url, "PHPSESSID=" + BookApplication.INSTANCE.getDataStore().getSessionId());
                             cookies.add(cookie);
                         }
                     }
@@ -96,13 +97,13 @@ public class Controller implements Serializable {
                     
                     serviceAPI api = getGsonAPI();
                     
-                    if(DataStore.getActivationCode(context)!= null || DataStore.getPassword(context)!=null)
+                    if(BookApplication.INSTANCE.getDataStore().getActivationCode(context)!= null || BookApplication.INSTANCE.getDataStore().getPassword(context)!=null)
                         return null;
                     
-                    AuthData data = api.login(DataStore.getActivationCode(context), decrypt(DataStore.getPassword(context),context))
+                    AuthData data = api.login(BookApplication.INSTANCE.getDataStore().getActivationCode(context), decrypt(BookApplication.INSTANCE.getDataStore().getPassword(context),context))
                             .execute().body();
                     
-                    DataStore.setToken(context,data.getToken());
+                    BookApplication.INSTANCE.getDataStore().setToken(context,data.getToken());
                     
                     return response.request().newBuilder()
                             .header("Authorization", data.getToken())
@@ -197,14 +198,34 @@ public class Controller implements Serializable {
         public Response intercept(Chain chain) throws IOException {
             Request originalRequest = chain.request();
             
-            if (DataStore.getToken() == null) {
+            if (!BookApplication.INSTANCE.getDataStore().isAuthorized()) {
                 return chain.proceed(originalRequest);
+            } else {
+                Request authorisedRequest;
+
+
+                Log.d(TAG,"Тупое говнище говорит, что оно авторизовано, хм = "+String.valueOf(BookApplication.INSTANCE.getDataStore().isAuthorized()));
+
+                try {
+                    if (BookApplication.INSTANCE.getDataStore().getToken() == null) {
+                        Log.d(TAG,"Говно тупое, какого хера ты тут делаешь!?");
+                        return chain.proceed(originalRequest);
+                    }
+
+                    if (BookApplication.INSTANCE.getDataStore().getToken() == null) {
+                        Log.d(TAG,"Тупое говно тупого говна, какого хера????");
+                        return chain.proceed(originalRequest);
+                    }
+
+                    authorisedRequest = originalRequest.newBuilder()
+                            .header("Authorization", BookApplication.INSTANCE.getDataStore().getToken())
+                            .build();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+                return chain.proceed(authorisedRequest);
             }
-            
-            Request authorisedRequest = originalRequest.newBuilder()
-                    .header("Authorization", DataStore.getToken())
-                    .build();
-            return chain.proceed(authorisedRequest);
         }
     }
 }

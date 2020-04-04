@@ -60,10 +60,10 @@ public class AuthenticationPresenter extends NavigatorPresenter<AuthenticationVi
             //while(count>0){
                 /*exit();
                 count--;*/
-            backTo(new Screens.AuthenticationScreens(Screens.AuthenticationScreens.REGISTRATION_LOGIN_SCREEN, DataStore.getLogin()));
+            backTo(new Screens.AuthenticationScreens(Screens.AuthenticationScreens.REGISTRATION_LOGIN_SCREEN, BookApplication.INSTANCE.getDataStore().getLogin()));
             //}
         } else {
-            replaceScreen(new Screens.AuthenticationScreens(Screens.AuthenticationScreens.REGISTRATION_LOGIN_SCREEN, DataStore.getLogin()));
+            replaceScreen(new Screens.AuthenticationScreens(Screens.AuthenticationScreens.REGISTRATION_LOGIN_SCREEN, BookApplication.INSTANCE.getDataStore().getLogin()));
         }
     }
     

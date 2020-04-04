@@ -24,7 +24,7 @@ public class ReviewWithBookHolder extends RecyclerView.ViewHolder {
                      final ReviewListener listener, final INavigator navigator) {
         mBinding.content.setText(review.getReview().getReviewText());
         mBinding.rating.setRating(review.getReview().getRating());
-        mBinding.textRating.setText(review.getReview().getRating().toString());
+        mBinding.labelRating.setText(review.getReview().getRating().toString());
     
         try {
             Date date = DataStore.mFormatFromServer.parse(review.getReview().getReviewDate());
@@ -64,7 +64,7 @@ public class ReviewWithBookHolder extends RecyclerView.ViewHolder {
         mBinding.containerBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navigator.goById(review.getBookInfo().getBookId());
+                navigator.goById(review.getBookInfo().getBookId().intValue());
             }
         });
     }

@@ -16,6 +16,7 @@ import com.arellomobile.mvp.presenter.PresenterType;
 import java.util.ArrayList;
 
 import c.tgm.booksapplication.AbstractFragment;
+import c.tgm.booksapplication.BookApplication;
 import c.tgm.booksapplication.R;
 import c.tgm.booksapplication.Screens;
 import c.tgm.booksapplication.any.DataStore;
@@ -77,7 +78,7 @@ public class ReviewListFragment extends AbstractFragment implements ReviewListVi
     
     public void setupViews() {
         mAdapter = new ReviewListAdapter(getContext(),new ArrayList<ReviewWithBook>(),
-                this, this, this,DataStore.getUserId(),
+                this, this, this, BookApplication.INSTANCE.getDataStore().getUserId(),
                 getPresenter().getPageSize());
     
         mBinding.recyclerView.setAdapter(mAdapter);

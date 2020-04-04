@@ -22,7 +22,7 @@ public class ReviewHolder extends RecyclerView.ViewHolder {
     public void bind(final Review review, int currentUserId, final ReviewListener listener) {
         mBinding.content.setText(review.getReviewText());
         mBinding.rating.setRating(review.getRating());
-        mBinding.textRating.setText(review.getRating().toString());
+        mBinding.labelRating.setText(review.getRating().toString());
         
 //        SimpleDateFormat mFormatForTokenLifetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssZ", Locale.getDefault());
         try {

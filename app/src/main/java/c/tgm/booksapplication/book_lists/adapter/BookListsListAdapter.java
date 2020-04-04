@@ -69,7 +69,11 @@ public class BookListsListAdapter extends RecyclerView.Adapter<BookListHolder> i
         this.mDeleteVisible = !this.mDeleteVisible;
         notifyDataSetChanged();
     }
-    
+
+    public boolean isDeleteVisible() {
+        return mDeleteVisible;
+    }
+
     @Override
     public int getItemViewType(int position) {
         return super.getItemViewType(position);

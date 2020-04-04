@@ -11,9 +11,9 @@ import c.tgm.booksapplication.authentication.registration.login.RegistrationLogi
 import c.tgm.booksapplication.authentication.registration.password.RegistrationPasswordFragment;
 import c.tgm.booksapplication.authors.list.AuthorListFragment;
 import c.tgm.booksapplication.book_lists.BookListsListFragment;
+import c.tgm.booksapplication.book_lists.read_books.ReadBooksFragment;
 import c.tgm.booksapplication.books.item.BookItemFragment;
 import c.tgm.booksapplication.books.list.BookListFragment;
-//import c.tgm.booksapplication.books.recommends.BookRecommendsFragment;
 import c.tgm.booksapplication.books.recommends.BookRecommendsFragment;
 import c.tgm.booksapplication.models.data.BookInfo;
 import c.tgm.booksapplication.models.data.Review;
@@ -229,6 +229,7 @@ public class Screens {
     public static final class BookListsScreens extends SupportAppScreen {
 
         public static final String LISTS_LIST_SCREEN = "lists_list_screen";
+        public static final String READ_BOOKS_SCREEN = "read_books_screen";
 
         private Object data = null;
         private Object data2 = null;
@@ -253,6 +254,8 @@ public class Screens {
             switch(getScreenKey()) {
                 case LISTS_LIST_SCREEN:
                     return BookListsListFragment.getInstance();
+                case READ_BOOKS_SCREEN:
+                    return ReadBooksFragment.getInstance((int)data);
                 default:
                     throw new RuntimeException("Unknown screen key!!");
             }

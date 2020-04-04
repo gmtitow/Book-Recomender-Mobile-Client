@@ -13,6 +13,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import c.tgm.booksapplication.BookApplication;
 import c.tgm.booksapplication.R;
 import c.tgm.booksapplication.any.DataStore;
 import c.tgm.booksapplication.authentication.authorization.events.LoginErrorEvent;
@@ -20,6 +21,7 @@ import c.tgm.booksapplication.authentication.authorization.events.LoginSuccessEv
 import c.tgm.booksapplication.authentication.events.GoToChangePasswordEvent;
 import c.tgm.booksapplication.authentication.events.GoToRegisterEvent;
 import c.tgm.booksapplication.authentication.events.LoginEvent;
+import c.tgm.booksapplication.models.data.BookListDao;
 
 
 @InjectViewState
@@ -37,7 +39,7 @@ public class AuthorizationPresenter extends MvpPresenter<AuthorizationView> {
     public void onCreate(Context context){
         mContext = context;
         if(mModel.isAuthDataWait()){
-            DataStore.setAuthorizationInfo(context,mModel.getCurrentAuthData(), mModel.getLogin());
+            BookApplication.INSTANCE.getDataStore().setAuthorizationInfo(context,mModel.getCurrentAuthData(), mModel.getLogin());
             mModel.setAuthDataWait(false);
             mModel.setCurrentAuthData(null);
         }
@@ -80,13 +82,18 @@ public class AuthorizationPresenter extends MvpPresenter<AuthorizationView> {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoginSuccessEvent(LoginSuccessEvent event) {
         if(mContext!= null){
-            DataStore.setAuthorizationInfo(mContext,event.getAuthData(), mModel.getLogin());
+            BookApplication.INSTANCE.getDataStore().setAuthorizationInfo(mContext,event.getAuthData(), mModel.getLogin());
         } else{
             mModel.setCurrentAuthData(event.getAuthData());
             mModel.setAuthDataWait(true);
         }
         
         EventBus.getDefault().unregister(this);
+
+
+        BookListDao genreDAO = BookApplication.INSTANCE.getDataStore().getDaoSession().getBookListDao();
+        genreDAO.insertOrReplaceInTx(event.getAuthData().getLists());
+
         EventBus.getDefault().post(new LoginEvent());
         getViewState().hideProgress();
     }

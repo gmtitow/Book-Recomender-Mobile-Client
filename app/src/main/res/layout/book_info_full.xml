@@ -68,32 +68,32 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/btnAddToRead" />
 
     <TextView
         android:id="@+id/reviewCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:fontFamily="@font/tahoma"
         android:text=""
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textReview"
-        app:layout_constraintTop_toBottomOf="@+id/textDescription"
+        app:layout_constraintTop_toTopOf="@+id/textReview"
         tools:text="10" />
 
     <TextView
-        android:id="@+id/textRating"
+        android:id="@+id/labelRating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/tahoma"
         android:text=""
         android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/ratingBar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textDescription"
+        app:layout_constraintTop_toTopOf="@+id/ratingBar"
         tools:text="4.3" />
 
     <ImageView
@@ -110,13 +110,23 @@
         style="?android:attr/ratingBarStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="132dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:numStars="5"
         app:layout_constraintBottom_toBottomOf="@+id/textRating"
-        app:layout_constraintEnd_toStartOf="@+id/textRating"
+        app:layout_constraintEnd_toStartOf="@+id/labelRating"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/reviewCount"
+        app:layout_constraintTop_toTopOf="@+id/textReview" />
+
+    <Button
+        android:id="@+id/btnAddToRead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textAllCaps="false"
+        android:text="@string/text_add_to_read"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textDescription" />
 
 

@@ -14,11 +14,9 @@ import android.widget.ArrayAdapter;
 import java.util.ArrayList;
 
 import c.tgm.booksapplication.R;
-import c.tgm.booksapplication.models.data.Book;
 import c.tgm.booksapplication.models.data.BookInfo;
 import c.tgm.booksapplication.models.data.Review;
 import c.tgm.booksapplication.review.ReviewHolder;
-import c.tgm.booksapplication.review.ReviewWithBookHolder;
 import c.tgm.booksapplication.review.ReviewListener;
 
 public class ReviewListAdapter extends ArrayAdapter<Review> {
@@ -26,14 +24,19 @@ public class ReviewListAdapter extends ArrayAdapter<Review> {
     private int mCurrentUserId;
     private ReviewListener mReviewListener;
     private BookInfo mBookInfo;
+    private View.OnClickListener mAddToReadListener;
+    private boolean mShowAddToRead;
     
     public ReviewListAdapter(@NonNull Context context, @NonNull ArrayList<Review> objects,
-                             int currentUserId, ReviewListener listener, BookInfo bookInfo) {
+                             int currentUserId, ReviewListener listener, BookInfo bookInfo, View.OnClickListener addToReadListener,
+                             boolean showAddToRead) {
         super(context, R.layout.review_list_item, objects);
         
         mCurrentUserId = currentUserId;
         mReviewListener = listener;
         mBookInfo = bookInfo;
+        mAddToReadListener = addToReadListener;
+        mShowAddToRead = showAddToRead;
     }
     
     public BookInfo getBookInfo() {
@@ -81,7 +84,7 @@ public class ReviewListAdapter extends ArrayAdapter<Review> {
             
             BookInfoFullHolder holder = new BookInfoFullHolder(mBinding);
     
-            holder.bind(mBookInfo, getContext());
+            holder.bind(mBookInfo, getContext(), mAddToReadListener,mShowAddToRead);
             
             return mBinding.getRoot();
         }

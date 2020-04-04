@@ -7,6 +7,8 @@ import android.util.Log;
 import org.greenrobot.greendao.database.Database;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 
@@ -32,23 +34,25 @@ public class DataStore {
     public static final String PREF_LOGIN = "login";
     public static final String PREF_PASSWORD = "password";
     
-    static public final SimpleDateFormat mFormatForTokenLifetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssZ", Locale.getDefault());
-    static public final SimpleDateFormat mFormatFromServer = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ", Locale.getDefault());
+    static public final SimpleDateFormat mFormatForTokenLifetime =
+            new SimpleDateFormat("yyyy-MM-dd HH:mm:ssZ", Locale.forLanguageTag("ru"));
+    static public final SimpleDateFormat mFormatFromServer =
+            new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ", Locale.getDefault());
     private final String DB_NAME = "rast-db";
     
-    private static DaoSession sDaoSession;
-    private static SharedPreferences preferences;
+    private DaoSession sDaoSession;
+    private SharedPreferences preferences;
     
-    public static int getUserId(Context context) {
+    public int getUserId(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         return preferences.getInt(PREF_CURRENT_USER_ID, -1);
     }
     
-    public static int getUserId() {
+    public int getUserId() {
         return preferences.getInt(PREF_CURRENT_USER_ID, -1);
     }
     
-    public static void setUserId(int userId) {
+    public void setUserId(int userId) {
         preferences.edit().putInt(PREF_CURRENT_USER_ID, userId).apply();
     }
     
@@ -59,17 +63,17 @@ public class DataStore {
 //            return null;
 //    }
     
-    public static String getSessionId() {
+    public String getSessionId() {
         return preferences.getString(PREF_SESSID, null);
     }
     
-    public static void setSessionId(String sessionId) {
+    public void setSessionId(String sessionId) {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(PREF_SESSID, sessionId).apply();
         editor.clear();
     }
     
-    public static String getToken() {
+    public String getToken() {
         if(preferences == null)
             Log.d(TAG,"preferences is null");
         
@@ -83,7 +87,7 @@ public class DataStore {
         }
     }
     
-    public static void setToken(Context context, String token) {
+    public void setToken(Context context, String token) {
         String newToken = "";
         newToken+=token;
         SharedPreferences.Editor editor = preferences.edit();
@@ -91,35 +95,33 @@ public class DataStore {
         editor.clear();
     }
     
-    public static void setTokenLifetime(Context context, String lifetime) {
-        String newLifetime = "";
-        newLifetime+=lifetime;
+    public void setTokenLifetime(Context context, int lifetime) {
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(PREF_TOKEN_LIFETIME, newLifetime).apply();
+        editor.putInt(PREF_TOKEN_LIFETIME, lifetime).apply();
         editor.clear();
     }
     
-    public static void setRole(Context context, String role) {
+    public void setRole(Context context, String role) {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(PREF_RULE, role).apply();
         editor.clear();
     }
     
-    public static void setLogin(String login) {
+    public void setLogin(String login) {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(PREF_LOGIN, login).apply();
         editor.clear();
     }
     
-    public static String getLogin() {
+    public String getLogin() {
         return preferences.getString(PREF_LOGIN, null);
     }
     
-    public static String getRole() {
+    public String getRole() {
         return preferences.getString(PREF_RULE, null);
     }
     
-    public static void setAuthorizationInfo(Context context, AuthData authData, String login) {
+    public void setAuthorizationInfo(Context context, AuthData authData, String login) {
         setToken(context,authData.getToken());
         setRole(context,authData.getRole());
         setTokenLifetime(context,authData.getLifeTime());
@@ -137,13 +139,15 @@ public class DataStore {
         return preferences.getString(PREF_PASSWORD,null);
     }*/
     
-    public static boolean isAuthorized() {
+    public boolean isAuthorized() {
 //        String token = preferences.getString(PREF_TOKEN, null);
 //        String lifetime = preferences.getString(PREF_TOKEN_LIFETIME, null);
-        return checkToken(preferences);
+        boolean result = checkToken(preferences);
+        Log.d(TAG,"Результат проверки токена = "+ result);
+        return result;
     }
     
-    public static boolean isAuthorized(Context context) {
+    public boolean isAuthorized(Context context) {
         //SharedPreferences preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         //
 //        String token = preferences.getString(PREF_TOKEN, null);
@@ -155,27 +159,34 @@ public class DataStore {
         return checkToken(preferences);
     }
     
-    private static boolean checkToken(SharedPreferences preferences){
+    private boolean checkToken(SharedPreferences preferences){
         String token = preferences.getString(PREF_TOKEN, null);
-        String lifetime = preferences.getString(PREF_TOKEN_LIFETIME, null);
+        int lifetime = preferences.getInt(PREF_TOKEN_LIFETIME, 0);
     
         Log.d(TAG,"Зашел в checkToken");
         Log.d(TAG,"token="+(token==null?"null":token));
-        Log.d(TAG,"lifetime="+(lifetime==null?"null":lifetime));
+        Log.d(TAG,"lifetime="+(lifetime==0?"null":lifetime));
     
-        if (token != null && lifetime != null) {
+        if (token != null && lifetime != 0) {
             try {
-                Date date = mFormatForTokenLifetime.parse(lifetime);
-                Date nowdate = new Date();
+                Date date = new Date();
+
+                date.setTime(lifetime*1000L);
+
+                Log.d(TAG,"lifetime в переводе="+date.toString());
+                Date now = new Date();
             
-                if(date.after(nowdate)){
+                if(date.after(now)){
                     return true;
                 } else{
+                    Log.d(TAG,"Время токена вышло! Надо его удалить, блин lifetime = "+(lifetime==0?"null":lifetime));
                     preferences.edit().remove(PREF_TOKEN).apply();
                     preferences.edit().remove(PREF_TOKEN_LIFETIME).apply();
                     return false;
                 }
             } catch (Exception e) {
+                e.printStackTrace();
+                Log.d(TAG,"Ошибка проверки даты. Токен также удален.");
                 preferences.edit().remove(PREF_TOKEN).apply();
                 preferences.edit().remove(PREF_TOKEN_LIFETIME).apply();
                 return false;
@@ -184,16 +195,16 @@ public class DataStore {
         return false;
     }
     
-    public static void clearDB() {
+    public void clearDB() {
     }
     
-    public static void clearPreferences(Context context) {
+    public void clearPreferences(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         Log.d(TAG,"Очистил preferences");
         preferences.edit().clear().apply();
     }
     
-    public static void clearAll(Context context) {
+    public void clearAll(Context context) {
         clearDB();
         clearPreferences(context);
     }
@@ -205,14 +216,14 @@ public class DataStore {
         preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
     }
     
-    public static DaoSession getDaoSession() {
+    public DaoSession getDaoSession() {
         return sDaoSession;
     }
     
 //    public static void clearDbToNewServiceList() {
-//        DataStore.getDaoSession().getServiceDao().deleteAll();
-//        DataStore.getDaoSession().getServicesImagesDao().deleteAll();
-//        DataStore.getDaoSession().getTradePointDao().deleteAll();
-//        DataStore.getDaoSession().getServicesCategoriesDao().deleteAll();
+//        BookApplication.getDataStore().getDaoSession().getServiceDao().deleteAll();
+//        BookApplication.getDataStore().getDaoSession().getServicesImagesDao().deleteAll();
+//        BookApplication.getDataStore().getDaoSession().getTradePointDao().deleteAll();
+//        BookApplication.getDataStore().getDaoSession().getServicesCategoriesDao().deleteAll();
 //    }
 }

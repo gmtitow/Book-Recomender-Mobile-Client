@@ -11,6 +11,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Date;
 
+import c.tgm.booksapplication.BookApplication;
 import c.tgm.booksapplication.R;
 import c.tgm.booksapplication.any.DataStore;
 import c.tgm.booksapplication.authentication.authorization.change_password.ChangePasswordRepository;
@@ -35,7 +36,7 @@ public class ChangePasswordPasswordPresenter extends MvpPresenter<ChangePassword
         mContext = context;
     
         if(mModel.isAuthDataWait()){
-            DataStore.setAuthorizationInfo(context,mModel.getCurrentAuthData(), mModel.getLogin());
+            BookApplication.INSTANCE.getDataStore().setAuthorizationInfo(context,mModel.getCurrentAuthData(), mModel.getLogin());
             mModel.setAuthDataWait(false);
             mModel.setCurrentAuthData(null);
         }

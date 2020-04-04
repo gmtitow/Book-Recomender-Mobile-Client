@@ -21,6 +21,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.PresenterType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import c.tgm.booksapplication.AbstractFragment;
 import c.tgm.booksapplication.R;
@@ -100,7 +101,7 @@ public class BookListsListFragment extends AbstractFragment implements
     }
 
     @Override
-    public void updateList(ArrayList<BookList> lists) {
+    public void updateList(List<BookList> lists) {
         if(lists.size() == 0) {
             mBinding.textEmptyList.setVisibility(View.VISIBLE);
         } else {
@@ -117,7 +118,7 @@ public class BookListsListFragment extends AbstractFragment implements
     
     @Override
     public void goById(int book_id) {
-//        getPresenter().openBookInfo(book_id);
+        getPresenter().openReadBooks(book_id);
     }
 
     @Override
@@ -146,6 +147,10 @@ public class BookListsListFragment extends AbstractFragment implements
                 return true;
             case R.id.action_delete:{
                 mAdapter.changeDelete();
+                if (mAdapter.isDeleteVisible())
+                    item.setIcon(R.drawable.ic_close);
+                else
+                    item.setIcon(R.drawable.ic_delete);
             }
             default:
                 return super.onOptionsItemSelected(item);
