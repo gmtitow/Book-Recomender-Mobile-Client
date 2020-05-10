@@ -7,24 +7,28 @@ import java.util.HashMap;
 
 import c.tgm.booksapplication.api.BooksAPI;
 import c.tgm.booksapplication.api.SomeController;
-import c.tgm.booksapplication.books.list.BookPresenterRepo;
+import c.tgm.booksapplication.models.request.book_list.CommonListRequest;
 import c.tgm.booksapplication.models.response.BookInfoResponse;
 import c.tgm.booksapplication.models.response.BooksResponse;
+import c.tgm.booksapplication.models.response.CommonResponse;
+import c.tgm.booksapplication.repositories.Repository;
+import c.tgm.booksapplication.repositories.RepositoryCallImpl;
+import c.tgm.booksapplication.repositories.RepositoryImpl;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BookRepositoryImpl implements BookRepository {
+public class BookRepositoryImpl extends RepositoryImpl implements BookRepository {
     
     private BookPresenterRepo mPresenter;
-    private Call lastCall;
-    private Callback lastCallback;
+    private BooksAPI mApi;
     public BookRepositoryImpl(BookPresenterRepo presenter) {
         mPresenter = presenter;
+        mApi = getAPI(BooksAPI.class);
     }
     
     @Override
-    public void getBooks(String query, Integer authorId, Long genreId, int page, int page_size, final boolean rewrite) {
+    public void getBooks(String query, Integer authorId, Long genreId, int page, int page_size) {
         BooksAPI api = SomeController.getGsonAPI(BooksAPI.class);
     
         HashMap<String,Object> data = new HashMap<>();
@@ -33,126 +37,36 @@ public class BookRepositoryImpl implements BookRepository {
         data.put("genre_id", genreId);
         data.put("page", page);
         data.put("page_size", page_size);
-    
-        lastCall = api.find(data);
-    
-        lastCallback = new retrofit2.Callback<BooksResponse>() {
-            @Override
-            public void onResponse(Call<BooksResponse> call, Response<BooksResponse> response) {
-                BooksResponse resp;
-                if (!response.isSuccessful()) {
-                    try {
-                        Gson gson = new Gson();
-                        resp = gson.fromJson(response.errorBody().string(), BooksResponse.class);
-                    }catch(IOException e) {
-                        e.printStackTrace();
-                        return;
-                    }
-                } else {
-                    resp = response.body();
-                }
-        
-                if (resp.getSuccess()==null || resp.getSuccess().equals(false)) {
-                    mPresenter.onError(resp.getErrorDescription());
-                } else {
-                    mPresenter.rememberBooks(resp.getData(), rewrite);
-                }
-            }
-    
-            @Override
-            public void onFailure(Call<BooksResponse> call, Throwable t) {
-                mPresenter.onError(t.getMessage());
-            }
-        };
-    
-        lastCall.enqueue(lastCallback);
+
+        Call call = mApi.find(data);
+        RepositoryCallImpl respCall = new RepositoryCallImpl<>(
+                call, BooksResponse.class, mPresenter::rememberBooks, mPresenter::onError, this);
+        respCall.call();
     }
     
     @Override
-    public void cancelRequest() {
-        lastCall.cancel();
-    }
-    
-    @Override
-    public void getRecommends(String query, Long genreId, int page, int page_size, final boolean rewrite) {
-        BooksAPI api = SomeController.getGsonAPI(BooksAPI.class);
-        
+    public void getRecommends(String query, Long listId, Long genreId, int page, int page_size) {
+
         HashMap<String,Object> data = new HashMap<>();
         data.put("query", query);
         data.put("genre_id", genreId);
+        data.put("list_id", listId);
         data.put("page", page);
         data.put("page_size", page_size);
-        
-        lastCall = api.getRecommends(data);
-        
-        lastCallback = new retrofit2.Callback<BooksResponse>() {
-            @Override
-            public void onResponse(Call<BooksResponse> call, Response<BooksResponse> response) {
-                BooksResponse resp;
-                if (!response.isSuccessful()) {
-                    try {
-                        Gson gson = new Gson();
-                        resp = gson.fromJson(response.errorBody().string(), BooksResponse.class);
-                    }catch(IOException e) {
-                        e.printStackTrace();
-                        return;
-                    }
-                } else {
-                    resp = response.body();
-                }
-        
-                if (resp.getSuccess()==null || resp.getSuccess().equals(false)) {
-                    mPresenter.onError(resp.getErrorDescription());
-                } else {
-                    mPresenter.rememberBooks(resp.getData(), rewrite);
-                }
-            }
-    
-            @Override
-            public void onFailure(Call<BooksResponse> call, Throwable t) {
-                mPresenter.onError(t.getMessage());
-            }
-        };
-        
-        lastCall.enqueue(lastCallback);
+
+        Call call = mApi.getRecommends(data);
+        RepositoryCallImpl respCall = new RepositoryCallImpl<>(
+                call, BooksResponse.class, mPresenter::rememberBooks, mPresenter::onError, this);
+        respCall.call();
     }
     
     @Override
     public void getBookInfo(int book_id) {
-        BooksAPI api = SomeController.getGsonAPI(BooksAPI.class);
-        
-        lastCall = api.getInfo(book_id);
-        
-        lastCallback = new retrofit2.Callback<BookInfoResponse>() {
-            @Override
-            public void onResponse(Call<BookInfoResponse> call, Response<BookInfoResponse> response) {
-                BookInfoResponse resp;
-                if (!response.isSuccessful()) {
-                    try {
-                        Gson gson = new Gson();
-                        resp = gson.fromJson(response.errorBody().string(),BookInfoResponse.class);
-                    }catch(IOException e) {
-                        e.printStackTrace();
-                        return;
-                    }
-                } else {
-                    resp = response.body();
-                }
-        
-                if (resp.getSuccess()==null || resp.getSuccess().equals(false)) {
-                    mPresenter.onError(resp.getErrorDescription());
-                } else {
-                    mPresenter.rememberBook(resp.getData());
-                }
-            }
-    
-            @Override
-            public void onFailure(Call<BookInfoResponse> call, Throwable t) {
-                mPresenter.onError(t.getMessage());
-            }
-        };
-        
-        lastCall.enqueue(lastCallback);
+
+        Call call = mApi.getInfo(book_id);
+        RepositoryCallImpl respCall = new RepositoryCallImpl<>(
+                call, BookInfoResponse.class, mPresenter::rememberBook, mPresenter::onError, this);
+        respCall.call();
     }
     
     @Override
@@ -180,9 +94,12 @@ public class BookRepositoryImpl implements BookRepository {
 //
 //        lastCall.enqueue(lastCallback);
     }
-    
+
     @Override
-    public void retry() {
-        lastCall.clone().enqueue(lastCallback);
+    public void updateRecommendList(int listId) {
+        Call call = mApi.updateRecommends(new CommonListRequest(listId));
+        RepositoryCallImpl respCall = new RepositoryCallImpl<>(
+                call, CommonResponse.class, mPresenter::onUpdateRecommends, mPresenter::onError, this);
+        respCall.call();
     }
 }

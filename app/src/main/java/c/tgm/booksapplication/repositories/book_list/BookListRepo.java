@@ -20,4 +20,6 @@ public interface BookListRepo extends CommonRepo {
     default void onAddBookInList(ReadBookWithList book){};
 
     default void onGetAllReadBooks(List<ReadBookWithList> books){};
+
+    default void onDeleteBookFromList(String answer){};
 }

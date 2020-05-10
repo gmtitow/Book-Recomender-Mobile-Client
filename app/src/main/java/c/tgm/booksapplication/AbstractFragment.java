@@ -1,13 +1,14 @@
 package c.tgm.booksapplication;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.MvpView;
 
 import org.greenrobot.eventbus.EventBus;
 
-public abstract class AbstractFragment extends MvpAppCompatFragment implements MvpView {
+public abstract class AbstractFragment extends MvpAppCompatFragment implements AbstractView {
     
     public abstract AbstractPresenter getPresenter();
     
@@ -48,5 +49,10 @@ public abstract class AbstractFragment extends MvpAppCompatFragment implements M
 //            EventBus.getDefault().unregister(this);
 //        }
         getPresenter().clearView();
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Toast.makeText(getContext(),message,Toast.LENGTH_SHORT).show();
     }
 }

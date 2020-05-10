@@ -50,6 +50,14 @@
         </menu>
     </item>
 
+    <item android:title="Акции">
+        <menu>
+            <item
+                android:id="@+id/nav_promotion_list"
+                android:title="Список действующих акций" />
+        </menu>
+    </item>
+
     <!--<group android:checkableBehavior="single">-->
         <!--<item-->
             <!--android:id="@+id/nav_camera"-->

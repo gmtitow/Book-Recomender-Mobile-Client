@@ -3,8 +3,10 @@ package c.tgm.booksapplication.api;
 
 import java.util.HashMap;
 
+import c.tgm.booksapplication.models.request.book_list.CommonListRequest;
 import c.tgm.booksapplication.models.response.BookInfoResponse;
 import c.tgm.booksapplication.models.response.BooksResponse;
+import c.tgm.booksapplication.models.response.CommonResponse;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -20,8 +22,9 @@ public interface BooksAPI {
     final String PREFIX = "book";
     
     final String URL_FIND_BOOKS = PREFIX + "/find";
-    final String URL_GET_RECOMMENDS = PREFIX + "/recommends";
+    final String URL_GET_RECOMMENDS = "private/" + PREFIX + "/recommends";
     final String URL_GET_INFO = PREFIX + "/get/info";
+    final String URL_UPDATE_RECOMMENDS = "private/" + PREFIX + "/form-recommends";
     
     public final String URL_DOWNLOAD_FILE = PREFIX + "/download/file/txt";
     
@@ -37,6 +40,9 @@ public interface BooksAPI {
     
     @GET(BooksAPI.URL_DOWNLOAD_FILE)
     Call<ResponseBody> download(@Query("book_id") int book_id);
+
+    @POST(BooksAPI.URL_UPDATE_RECOMMENDS)
+    Call<CommonResponse> updateRecommends(@Body CommonListRequest list);
     
     @GET("images/sunset.jpg")
     Call<ResponseBody> testDownload();

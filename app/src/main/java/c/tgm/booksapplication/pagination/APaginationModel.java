@@ -13,6 +13,8 @@ public abstract class APaginationModel<MainObject> {
 
     private boolean loading = false;
 
+    private boolean add = false;
+
     public int getCurPage() {
         return curPage;
     }
@@ -53,5 +55,13 @@ public abstract class APaginationModel<MainObject> {
 
     public void setLoading(boolean loading) {
         this.loading = loading;
+    }
+
+    public boolean isAdd() {
+        return add;
+    }
+
+    public void setAdd(boolean add) {
+        this.add = add;
     }
 }

@@ -5,11 +5,13 @@ import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -26,7 +28,8 @@ public abstract class APaginationFragment
         <
                 MainObject,
                 Model extends APaginationModel<MainObject>,
-                PaginationPresenter extends APaginationPresenter<MainObject,Model>,
+                IView extends IPaginationView<MainObject>,
+                PaginationPresenter extends APaginationPresenter<IView, MainObject,Model>,
                 DataBinding extends ViewDataBinding,
                 PaginationAdapter extends APaginationAdapter
         >
@@ -53,6 +56,12 @@ public abstract class APaginationFragment
         getRecyclerView().setLayoutManager(new LinearLayoutManager(getContext()));
 
         getPresenter().getObjects();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getPresenter().getNewObjects(false);
     }
 
     protected abstract int getLayoutResourceId();

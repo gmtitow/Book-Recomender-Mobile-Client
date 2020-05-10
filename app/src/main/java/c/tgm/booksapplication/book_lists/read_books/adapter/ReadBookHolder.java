@@ -3,12 +3,14 @@ package c.tgm.booksapplication.book_lists.read_books.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.squareup.picasso.Picasso;
 
 import c.tgm.booksapplication.R;
 import c.tgm.booksapplication.any.UserRequest;
 import c.tgm.booksapplication.databinding.ReadBookItemBinding;
+import c.tgm.booksapplication.interfaces.IRemover;
 import c.tgm.booksapplication.models.data.ReadBook;
 
 public class ReadBookHolder extends RecyclerView.ViewHolder {
@@ -21,7 +23,7 @@ public class ReadBookHolder extends RecyclerView.ViewHolder {
 
     }
 
-    public void bind(final ReadBook book, Context context) {
+    public void bind(final ReadBook book, Context context, IRemover remover, boolean deleteVisible) {
         mBinding.textAuthorName.setText(book.getAuthorName());
         mBinding.textBookName.setText(book.getName());
         mBinding.textRating.setText(String.valueOf(book.getRating()));
@@ -33,6 +35,18 @@ public class ReadBookHolder extends RecyclerView.ViewHolder {
                 .centerInside()
                 .into(mBinding.imageView);
 
+        if (deleteVisible) {
+            mBinding.buttonDelete.setVisibility(View.VISIBLE);
+            mBinding.buttonDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    remover.delete(book.getBookId().intValue());
+                }
+            });
+        } else {
+            mBinding.buttonDelete.setVisibility(View.GONE);
+
+        }
 
 //        mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
 //            @Override

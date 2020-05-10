@@ -29,6 +29,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
  * Created by NorD on 16.11.2017.
@@ -41,6 +42,10 @@ public class Controller implements Serializable {
     private static final String TAG = "Controller";
     
     public Controller(final Context context) {
+
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
         if (client == null) {
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
             client = builder.followRedirects(false).cookieJar(new CookieJar() {
@@ -109,7 +114,7 @@ public class Controller implements Serializable {
                             .header("Authorization", data.getToken())
                             .build();
                 }
-            })*/.addInterceptor(new TokenInterceptor()).build();
+            })*/.addInterceptor(new TokenInterceptor()).addInterceptor(interceptor).build();
         }
     }
     

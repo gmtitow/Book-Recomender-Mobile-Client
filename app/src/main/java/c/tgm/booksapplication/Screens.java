@@ -17,6 +17,8 @@ import c.tgm.booksapplication.books.list.BookListFragment;
 import c.tgm.booksapplication.books.recommends.BookRecommendsFragment;
 import c.tgm.booksapplication.models.data.BookInfo;
 import c.tgm.booksapplication.models.data.Review;
+import c.tgm.booksapplication.promotion.add.PromotionAddFragment;
+import c.tgm.booksapplication.promotion.list.PromotionListFragment;
 import c.tgm.booksapplication.review.ReviewAddFragment;
 import c.tgm.booksapplication.review.list.ReviewListFragment;
 import ru.terrakok.cicerone.android.support.SupportAppScreen;
@@ -256,6 +258,42 @@ public class Screens {
                     return BookListsListFragment.getInstance();
                 case READ_BOOKS_SCREEN:
                     return ReadBooksFragment.getInstance((int)data);
+                default:
+                    throw new RuntimeException("Unknown screen key!!");
+            }
+        }
+    }
+
+    public static final class PromotionScreens extends SupportAppScreen {
+
+        public static final String LIST_SCREEN = "list_screen";
+        public static final String ADD_SCREEN = "add_screen";
+
+        private Object data = null;
+        private Object data2 = null;
+
+        public PromotionScreens(String screenkey) {
+            this.screenKey = screenkey;
+        }
+
+        public PromotionScreens(String screenkey, Object data) {
+            this.screenKey = screenkey;
+            this.data = data;
+        }
+
+        public PromotionScreens(String screenkey, Object data, Object data2) {
+            this.screenKey = screenkey;
+            this.data = data;
+            this.data2 = data2;
+        }
+
+        @Override
+        public Fragment getFragment() {
+            switch(getScreenKey()) {
+                case LIST_SCREEN:
+                    return PromotionListFragment.getInstance();
+                case ADD_SCREEN:
+                    return PromotionAddFragment.getInstance();
                 default:
                     throw new RuntimeException("Unknown screen key!!");
             }

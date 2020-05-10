@@ -13,4 +13,6 @@ public interface BookItemView extends MvpView {
     void deleteReviewFromList(int reviewId);
 
     void bookWasAdded();
+
+    void showError(String error);
 }

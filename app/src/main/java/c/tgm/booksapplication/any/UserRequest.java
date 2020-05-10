@@ -16,7 +16,7 @@ public final class UserRequest{
     //public static final String URL_HOST = "bro4you.ru";
     //public static final String URL_HOST = "192.168.1.197";
     //public static final String URL_HOST = "192.168.2.109";
-    public static final String URL_HOST = "192.168.2.108";
+    public static final String URL_HOST = "192.168.2.109";
     //public static final String URL_HOST = "192.168.2.108";
     //public static final String URL_HOST = "192.168.2.107";
     

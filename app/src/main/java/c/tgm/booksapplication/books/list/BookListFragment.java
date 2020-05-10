@@ -37,8 +37,8 @@ public class BookListFragment extends AbstractFragment implements BookListView, 
     
     FragmentBookListBinding mBinding;
     
-    BookListAdapter mAdapter;
-    ArrayAdapter mGenreAdapter;
+    protected BookListAdapter mAdapter;
+    protected ArrayAdapter mGenreAdapter;
     
     @Override
     public String getTitle() {
@@ -71,15 +71,19 @@ public class BookListFragment extends AbstractFragment implements BookListView, 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-    
-        if(getArguments()!= null && getArguments().containsKey(AUTHOR_ID)){
-            getPresenter().rememberAuthorId(getArguments().getInt(AUTHOR_ID));
+
+        //Грязища, ух
+        if (mBinding!=null) {
+
+            if (getArguments() != null && getArguments().containsKey(AUTHOR_ID)) {
+                getPresenter().rememberAuthorId(getArguments().getInt(AUTHOR_ID));
+            }
+
+            setupViews();
+
+            if (getPresenter().getBooks().size() == 0)
+                getPresenter().updateBookList(mBinding.searchView.getQuery().toString(), false);
         }
-        
-        setupViews();
-        
-        if (getPresenter().getBooks().size()==0)
-            getPresenter().updateBookList(mBinding.searchView.getQuery().toString(), false);
     }
     
     public void setupViews() {

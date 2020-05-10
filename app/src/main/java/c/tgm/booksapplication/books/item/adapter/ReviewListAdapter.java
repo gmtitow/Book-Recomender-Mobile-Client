@@ -38,6 +38,11 @@ public class ReviewListAdapter extends ArrayAdapter<Review> {
         mAddToReadListener = addToReadListener;
         mShowAddToRead = showAddToRead;
     }
+
+    public void setShowAddToRead(boolean show) {
+        mShowAddToRead = show;
+        notifyDataSetChanged();
+    }
     
     public BookInfo getBookInfo() {
         return mBookInfo;

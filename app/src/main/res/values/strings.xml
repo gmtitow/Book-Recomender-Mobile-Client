@@ -162,4 +162,12 @@
     <string name="inscription_dialog_set_list">Укажите список:</string>
     <string name="text_rating">Рейтинг</string>
     <string name="text_grade">Оценка:</string>
+    <string name="text_update">Обновить</string>
+    <string name="text_share">Выполнить рассылку</string>
+    <string name="select_books">Выбрать книги</string>
+    <string name="create_promotion">Создать акцию</string>
+
+
+    <string name="date_end_early_start_error">Дата завершения акции должна быть после даты начала</string>
+    <string name="task_date_end_error_today">Дата завершения акции не должна быть в прошлом</string>
 </resources>

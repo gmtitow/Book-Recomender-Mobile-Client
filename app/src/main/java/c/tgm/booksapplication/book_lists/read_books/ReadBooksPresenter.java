@@ -15,7 +15,7 @@ import c.tgm.booksapplication.repositories.book_list.BookListRepo;
 import c.tgm.booksapplication.repositories.book_list.BookListRepository;
 import c.tgm.booksapplication.repositories.book_list.BookListRepositoryImpl;
 
-public class ReadBooksPresenter extends APaginationPresenter<ReadBook, ReadBooksModel> implements BookListRepo {
+public class ReadBooksPresenter extends APaginationPresenter<ReadBooksView,ReadBook, ReadBooksModel> implements BookListRepo {
 
     BookListRepository mRepository;
 
@@ -50,8 +50,7 @@ public class ReadBooksPresenter extends APaginationPresenter<ReadBook, ReadBooks
     }
 
     @Override
-    protected void getNewObjects() {
-//        mRepository.getBooksFromList(mModel.getListId(), mModel.getCurPage(), mModel.getPageSize());
+    protected void getNewObjects(boolean add) {
         ReadBookWithListDao dao = BookApplication.INSTANCE.getDataStore().getDaoSession().getReadBookWithListDao();
 
         List<ReadBook> readBooks = new ArrayList<>();
@@ -64,12 +63,18 @@ public class ReadBooksPresenter extends APaginationPresenter<ReadBook, ReadBooks
             readBooks.add(book.toReadBook());
         }
 
+        if (add) {
+            mModel.addObjects(readBooks);
+        } else {
+            mModel.setObjects(readBooks);
+        }
+
         onGetBooksFromList(readBooks);
     }
 
     @Override
     public void onGetBooksFromList(List<ReadBook> books) {
-        mModel.addObjects(books);
+//        mModel.addObjects(books);
 
         getView().updateList(mModel.getObjects());
     }
@@ -89,5 +94,26 @@ public class ReadBooksPresenter extends APaginationPresenter<ReadBook, ReadBooks
 
     @Override
     public void onDeleteList(String deleted) {
+    }
+
+    public void setCurrentBookId(int id) {
+        mModel.setCurrentBookId(id);
+    }
+
+    public void deleteBookFromList() {
+        mRepository.deleteBookFromList(mModel.getCurrentBookId(),mModel.getListId());
+    }
+
+    @Override
+    public void onDeleteBookFromList(String answer) {
+        //--------
+        ReadBookWithListDao dao = BookApplication.INSTANCE.getDataStore().getDaoSession().getReadBookWithListDao();
+
+        dao.queryBuilder().where(ReadBookWithListDao.Properties.ListId.eq(mModel.getListId()),
+                ReadBookWithListDao.Properties.Book_id.eq(mModel.getCurrentBookId())).buildDelete().executeDeleteWithoutDetachingEntities();
+
+        getNewObjects(false);
+        getView().showMessage("Книга успешно удалена из списка");
+        //--------
     }
 }

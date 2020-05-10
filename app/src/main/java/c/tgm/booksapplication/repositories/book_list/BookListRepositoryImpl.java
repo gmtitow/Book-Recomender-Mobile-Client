@@ -70,4 +70,12 @@ public class BookListRepositoryImpl extends RepositoryImpl implements BookListRe
                 call, ReadBooksWithListsResponse.class, mHandler::onGetAllReadBooks, mHandler::onError, this);
         respCall.call();
     }
+
+    @Override
+    public void deleteBookFromList(int bookId, int listId) {
+        Call call = mApi.deleteBookFromList(new CommonBookListRelationRequest(listId,bookId));
+        RepositoryCallImpl respCall = new RepositoryCallImpl<>(
+                call, CommonResponse.class, mHandler::onDeleteBookFromList, mHandler::onError, this);
+        respCall.call();
+    }
 }

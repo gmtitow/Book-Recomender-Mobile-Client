@@ -14,4 +14,6 @@ public interface BookListRepository extends Repository {
     void addBookInList(int listId, int bookId, int rating);
 
     void getAllReadBooks();
+
+    void deleteBookFromList(int bookId, int listId);
 }

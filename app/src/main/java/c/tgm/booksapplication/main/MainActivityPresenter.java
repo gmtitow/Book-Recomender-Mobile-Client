@@ -49,13 +49,13 @@ public class MainActivityPresenter extends NavigatorPresenter<MainActivityView> 
     
     public void setView(MainActivityView view) {
         this.view = view;
-        view.updateAuthenticated(BookApplication.INSTANCE.getDataStore().isAuthorized(),BookApplication.INSTANCE.getDataStore().getLogin());
+        view.updateAuthenticated(BookApplication.INSTANCE.getDataStore().isAuthorized());
         
     }
     
     public void logout(Context mContext) {
         BookApplication.INSTANCE.getDataStore().clearAll(mContext);
-        view.updateAuthenticated(BookApplication.INSTANCE.getDataStore().isAuthorized(),BookApplication.INSTANCE.getDataStore().getLogin());
+        view.updateAuthenticated(BookApplication.INSTANCE.getDataStore().isAuthorized());
     }
     
     public void someOtherMethod() {

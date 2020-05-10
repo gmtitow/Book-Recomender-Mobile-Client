@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import c.tgm.booksapplication.AbstractActivity;
+import c.tgm.booksapplication.BookApplication;
 import c.tgm.booksapplication.R;
 import c.tgm.booksapplication.Screens;
 import c.tgm.booksapplication.any.ActivityGlobalNavigator;
@@ -36,6 +37,11 @@ public class MainActivity extends AbstractActivity
     MenuItem itemRegister;
     MenuItem itemExit;
     MenuItem itemReviewList;
+    MenuItem itemRecommendations;
+    MenuItem itemBookLists;
+    MenuItem itemPromotions;
+    MenuItem itemAuthors;
+    MenuItem itemFindBooks;
     
     TextView mTextLogin;
     
@@ -75,13 +81,22 @@ public class MainActivity extends AbstractActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     
+        initMenuItems(navigationView);
+    
+        View navHeaderView = mBinding.navView.inflateHeaderView(R.layout.nav_header_main);
+        mTextLogin = navHeaderView.findViewById(R.id.textLogin);
+    }
+
+    public void initMenuItems(NavigationView navigationView) {
         itemLogin = navigationView.getMenu().findItem(R.id.nav_authorization);
         itemRegister = navigationView.getMenu().findItem(R.id.nav_register);
         itemExit = navigationView.getMenu().findItem(R.id.nav_exit);
         itemReviewList = navigationView.getMenu().findItem(R.id.nav_users_reviews);
-    
-        View navHeaderView = mBinding.navView.inflateHeaderView(R.layout.nav_header_main);
-        mTextLogin = navHeaderView.findViewById(R.id.textLogin);
+        itemRecommendations = navigationView.getMenu().findItem(R.id.nav_recommendations);
+        itemBookLists = navigationView.getMenu().findItem(R.id.nav_book_lists);
+        itemPromotions = navigationView.getMenu().findItem(R.id.nav_promotion_list);
+        itemAuthors = navigationView.getMenu().findItem(R.id.nav_find_authors);
+        itemFindBooks = navigationView.getMenu().findItem(R.id.nav_find_books);
     }
     
     @Override
@@ -148,8 +163,11 @@ public class MainActivity extends AbstractActivity
                 getPresenter().navigateTo(new Screens.ReviewScreens(Screens.ReviewScreens.REVIEW_LIST_SCREEN));
                 break;
             }
+            case R.id.nav_promotion_list:{
+                getPresenter().navigateTo(new Screens.PromotionScreens(Screens.PromotionScreens.LIST_SCREEN));
+                break;
+            }
             case R.id.nav_exit:{
-    
                 getPresenter().logout(this);
                 break;
             }
@@ -181,13 +199,70 @@ public class MainActivity extends AbstractActivity
     }
     
     @Override
-    public void updateAuthenticated(boolean isAuthenticated, String login) {
-        itemExit.setVisible(isAuthenticated);
-        itemLogin.setVisible(!isAuthenticated);
-        itemRegister.setVisible(!isAuthenticated);
-        itemReviewList.setEnabled(isAuthenticated);
-//        itemReviewList.setVisible(isAuthenticated);
-    
-        mTextLogin.setText(login);
+    public void updateAuthenticated(boolean isAuthenticated) {
+        if (isAuthenticated) {
+            String login = BookApplication.INSTANCE.getDataStore().getLogin();
+            String role = BookApplication.INSTANCE.getDataStore().getRole();
+
+            if (role.equals("User")) {
+                //Для пользователей
+                itemExit.setVisible(true);
+                itemLogin.setVisible(false);
+                itemRegister.setVisible(false);
+
+                itemReviewList.setEnabled(true);
+                itemRecommendations.setEnabled(true);
+                itemBookLists.setEnabled(true);
+
+                itemReviewList.setVisible(true);
+                itemRecommendations.setVisible(true);
+                itemBookLists.setVisible(true);
+
+                itemAuthors.setVisible(true);
+                itemFindBooks.setVisible(true);
+                //Для сотрудников
+                itemPromotions.setVisible(false);
+
+            } else if (role.equals("Moderator")){
+
+                //Для пользователей
+                itemExit.setVisible(true);
+                itemLogin.setVisible(false);
+                itemRegister.setVisible(false);
+
+                itemReviewList.setVisible(false);
+                itemRecommendations.setVisible(false);
+                itemBookLists.setVisible(false);
+
+                itemAuthors.setVisible(false);
+                itemFindBooks.setVisible(false);
+                //Для сотрудников
+                itemPromotions.setVisible(true);
+            } else {
+                throw new RuntimeException("Unknown role \""+role+"\" was got in updateAuthenticated");
+            }
+
+            mTextLogin.setVisibility(View.VISIBLE);
+            mTextLogin.setText(login);
+        } else {
+            //Для пользователей
+            itemExit.setVisible(false);
+            itemLogin.setVisible(true);
+            itemRegister.setVisible(true);
+
+            itemReviewList.setEnabled(false);
+            itemRecommendations.setEnabled(false);
+            itemBookLists.setEnabled(false);
+
+            itemReviewList.setVisible(true);
+            itemRecommendations.setVisible(true);
+            itemBookLists.setVisible(true);
+
+            itemAuthors.setVisible(true);
+            itemFindBooks.setVisible(true);
+            //Для сотрудников
+            itemPromotions.setVisible(false);
+            mTextLogin.setVisibility(View.GONE);
+        }
     }
 }

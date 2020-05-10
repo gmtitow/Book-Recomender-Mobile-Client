@@ -8,5 +8,5 @@ public interface MainActivityView extends MvpView {
     
     public void someViewMethod();
     
-    public void updateAuthenticated(boolean isAuthenticated, String login);
+    public void updateAuthenticated(boolean isAuthenticated);
 }

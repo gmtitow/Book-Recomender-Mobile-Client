@@ -6,18 +6,21 @@ import java.util.List;
 import c.tgm.booksapplication.BookApplication;
 import c.tgm.booksapplication.NavigatorPresenter;
 import c.tgm.booksapplication.Screens;
-import c.tgm.booksapplication.any.DataStore;
+import c.tgm.booksapplication.books.BookPresenterRepo;
 import c.tgm.booksapplication.books.BookRepository;
 import c.tgm.booksapplication.books.BookRepositoryImpl;
 import c.tgm.booksapplication.models.data.Book;
 import c.tgm.booksapplication.models.data.BookInfo;
 import c.tgm.booksapplication.models.data.Genre;
 import c.tgm.booksapplication.models.data.GenreDao;
+import c.tgm.booksapplication.repositories.RepositoryCall;
 
 public class BookListPresenter extends NavigatorPresenter<BookListView> implements BookPresenterRepo {
     
     protected BookListModel mModel;
     protected BookRepository mRepository;
+
+    protected boolean rewrite;
     
     public BookListPresenter() {
         mModel = new BookListModel();
@@ -41,7 +44,8 @@ public class BookListPresenter extends NavigatorPresenter<BookListView> implemen
     }
     
     protected void getNewBooks(String query, boolean rewrite) {
-        mRepository.getBooks(query,mModel.getAuthorId(),mModel.getGenreId(),mModel.getCurPage(),mModel.getPageSize(), rewrite);
+        this.rewrite = rewrite;
+        mRepository.getBooks(query,mModel.getAuthorId(),mModel.getGenreId(),mModel.getCurPage(),mModel.getPageSize());
     }
     
     public List<Book> getBooks(){
@@ -49,7 +53,7 @@ public class BookListPresenter extends NavigatorPresenter<BookListView> implemen
     }
     
     @Override
-    public void rememberBooks(List<Book> books, boolean rewrite) {
+    public void rememberBooks(List<Book> books) {
         mModel.setLoading(false);
         
         if (rewrite)
@@ -105,10 +109,10 @@ public class BookListPresenter extends NavigatorPresenter<BookListView> implemen
         mModel.setLoading(false);
         navigateTo(new Screens.BookScreens(Screens.BookScreens.BOOK_INFO_SCREEN, book));
     }
-    
+
     @Override
-    public void onError(String error) {
-//        mRepository.getAuthors(mModel.getLastQuery(),mModel.getGenreId(),mModel.getCurPage(),mModel.getPageSize(), mModel.isLastRewrite());
-        mRepository.retry();
+    public void onError(String errorDescription, RepositoryCall call) {
+        getView().showMessage(errorDescription);
+        call.call();
     }
 }

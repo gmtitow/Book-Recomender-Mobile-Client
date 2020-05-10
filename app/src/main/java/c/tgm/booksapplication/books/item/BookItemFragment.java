@@ -226,6 +226,13 @@ public class BookItemFragment extends AbstractFragment implements BookItemView, 
 
     @Override
     public void bookWasAdded() {
+        mReviewAdapter.setShowAddToRead(getPresenter().getBookLists().size()!=0);
+
         Toast.makeText(getContext(),"Книга была успешно добавлена",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showError(String error) {
+        Toast.makeText(getContext(),error,Toast.LENGTH_SHORT).show();
     }
 }

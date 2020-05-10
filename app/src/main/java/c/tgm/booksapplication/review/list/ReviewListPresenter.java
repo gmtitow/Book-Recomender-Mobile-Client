@@ -5,17 +5,14 @@ import java.util.List;
 
 import c.tgm.booksapplication.NavigatorPresenter;
 import c.tgm.booksapplication.Screens;
-import c.tgm.booksapplication.any.DataStore;
 import c.tgm.booksapplication.books.BookRepository;
 import c.tgm.booksapplication.books.BookRepositoryImpl;
-import c.tgm.booksapplication.books.list.BookListView;
-import c.tgm.booksapplication.books.list.BookPresenterRepo;
+import c.tgm.booksapplication.books.BookPresenterRepo;
 import c.tgm.booksapplication.models.data.Book;
 import c.tgm.booksapplication.models.data.BookInfo;
-import c.tgm.booksapplication.models.data.Genre;
-import c.tgm.booksapplication.models.data.GenreDao;
 import c.tgm.booksapplication.models.data.Review;
 import c.tgm.booksapplication.models.data.ReviewWithBook;
+import c.tgm.booksapplication.repositories.RepositoryCall;
 import c.tgm.booksapplication.repositories.ReviewPresenterRepo;
 import c.tgm.booksapplication.repositories.ReviewRepository;
 import c.tgm.booksapplication.repositories.ReviewRepositoryImpl;
@@ -95,7 +92,7 @@ public class ReviewListPresenter extends NavigatorPresenter<ReviewListView>
     }
     
     @Override
-    public void rememberBooks(List<Book> books, boolean rewrite) {
+    public void rememberBooks(List<Book> books) {
     }
     
     @Override
@@ -107,5 +104,9 @@ public class ReviewListPresenter extends NavigatorPresenter<ReviewListView>
     public void openBookInfo(int book_id) {
         lastBookRepository = true;
         mBookRepository.getBookInfo(book_id);
+    }
+
+    @Override
+    public void onError(String errorDescription, RepositoryCall call) {
     }
 }

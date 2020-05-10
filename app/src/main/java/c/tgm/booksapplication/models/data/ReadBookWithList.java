@@ -12,8 +12,7 @@ public class ReadBookWithList {
 
     @SerializedName("book_id")
     @Expose
-    @Id
-    protected Long _id;
+    protected Long book_id;
 
     @SerializedName("list_id")
     @Expose
@@ -39,10 +38,10 @@ public class ReadBookWithList {
     @Expose
     protected String authorName;
 
-    @Generated(hash = 1936941656)
-    public ReadBookWithList(Long _id, int listId, int rating, String imagePath,
-                            String name, String description, String authorName) {
-        this._id = _id;
+    @Generated(hash = 1814142211)
+    public ReadBookWithList(Long book_id, int listId, int rating, String imagePath,
+            String name, String description, String authorName) {
+        this.book_id = book_id;
         this.listId = listId;
         this.rating = rating;
         this.imagePath = imagePath;
@@ -91,11 +90,11 @@ public class ReadBookWithList {
     }
 
     public Long getBookId() {
-        return this._id;
+        return this.book_id;
     }
 
     public void setBookId(Long _id) {
-        this._id = _id;
+        this.book_id = _id;
     }
 
     public String getName() {
@@ -122,11 +121,11 @@ public class ReadBookWithList {
         this.authorName = authorName;
     }
 
-    public Long get_id() {
-        return this._id;
+    public Long getBook_id() {
+        return this.book_id;
     }
 
-    public void set_id(Long _id) {
-        this._id = _id;
+    public void setBook_id(Long book_id) {
+        this.book_id = book_id;
     }
 }
