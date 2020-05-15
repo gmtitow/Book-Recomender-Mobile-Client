@@ -89,7 +89,7 @@ public class PromotionAddFragment extends AbstractFragment implements PromotionA
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             mTemporaryTimeStart.set(Calendar.HOUR_OF_DAY, hourOfDay);
-            mTemporaryTimeEnd.set(Calendar.MINUTE, minute);
+            mTemporaryTimeStart.set(Calendar.MINUTE, minute);
 
             mTemporaryTimeStart.set(Calendar.SECOND, 0);
 
@@ -98,7 +98,7 @@ public class PromotionAddFragment extends AbstractFragment implements PromotionA
 
             if (getPresenter().getTimeEnd() == null || mTemporaryTimeStart.getTime().getTime() < getPresenter().getTimeEnd().getTime().getTime()) {
 
-                getPresenter().setTimeEnd(mTemporaryTimeStart);
+                getPresenter().setTimeStart(mTemporaryTimeStart);
 
             } else
                 Toast.makeText(getContext(), R.string.date_end_early_start_error, Toast.LENGTH_SHORT).show();
@@ -214,7 +214,7 @@ public class PromotionAddFragment extends AbstractFragment implements PromotionA
         mBinding.textTimeStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getPresenter().getTimeEnd() != null)
+                if (getPresenter().getTimeStart() != null)
                     new DatePickerDialog(getContext(), mOnDateStartSetListener,
                             getPresenter().getTimeStart().get(Calendar.YEAR),
                             getPresenter().getTimeStart().get(Calendar.MONTH),
@@ -230,15 +230,29 @@ public class PromotionAddFragment extends AbstractFragment implements PromotionA
                 }
             }
         });
+
+        mBinding.btnAddPromotion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getPresenter().createPromotion(mBinding.textDescription.getText().toString());
+            }
+        });
+
+        mBinding.btnSelectBooks.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getPresenter().selectBooks();
+            }
+        });
     }
 
     @Override
     public void onSetTimeEnd(Calendar timeEnd) {
-        mBinding.textTimeEnd.setText(DataStore.mFormatFromServer.format(timeEnd));
+        mBinding.textTimeEnd.setText(DataStore.mFormatForDisplay.format(timeEnd.getTime()));
     }
 
     @Override
     public void onSetTimeStart(Calendar timeStart) {
-        mBinding.textTimeEnd.setText(DataStore.mFormatFromServer.format(timeStart));
+        mBinding.textTimeStart.setText(DataStore.mFormatForDisplay.format(timeStart.getTime()));
     }
 }

@@ -15,6 +15,7 @@ public abstract class APaginationPresenter<View extends IPaginationView<MainObje
     public APaginationPresenter() {
         initializeModel();
         initializeRepository();
+//        getNewObjects(false);
     }
 
     protected abstract void initializeModel();
@@ -31,7 +32,7 @@ public abstract class APaginationPresenter<View extends IPaginationView<MainObje
         }
 
         mModel.setLoading(true);
-        getNewObjects(true);
+        getNewObjects(!rewrite);
     }
 
     public List<MainObject> getObjects(){

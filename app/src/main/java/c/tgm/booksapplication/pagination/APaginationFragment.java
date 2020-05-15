@@ -51,11 +51,10 @@ public abstract class APaginationFragment
     protected void setupViews() {
         initializeAdapter();
 
-
         getRecyclerView().setAdapter(mAdapter);
         getRecyclerView().setLayoutManager(new LinearLayoutManager(getContext()));
 
-        getPresenter().getObjects();
+        mAdapter.setObjects(getPresenter().getObjects());
     }
 
     @Override

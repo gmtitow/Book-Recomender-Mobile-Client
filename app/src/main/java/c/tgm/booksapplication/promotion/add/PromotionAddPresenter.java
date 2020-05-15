@@ -1,14 +1,19 @@
 package c.tgm.booksapplication.promotion.add;
 
+import com.arellomobile.mvp.InjectViewState;
+
 import java.util.Calendar;
+import java.util.List;
 
 import c.tgm.booksapplication.NavigatorPresenter;
 import c.tgm.booksapplication.models.data.Promotion;
+import c.tgm.booksapplication.models.request.promotion.PromotionAddRequest;
 import c.tgm.booksapplication.repositories.RepositoryCall;
 import c.tgm.booksapplication.repositories.promotion.PromotionRepo;
 import c.tgm.booksapplication.repositories.promotion.PromotionRepository;
 import c.tgm.booksapplication.repositories.promotion.PromotionRepositoryImpl;
 
+@InjectViewState
 public class PromotionAddPresenter extends NavigatorPresenter<PromotionAddView> implements PromotionRepo {
 
     private PromotionRepository mRepository;
@@ -25,6 +30,8 @@ public class PromotionAddPresenter extends NavigatorPresenter<PromotionAddView> 
 
     public void setTimeStart(Calendar timeStart) {
         mModel.setTimeStart(timeStart);
+
+        getViewState().onSetTimeStart(mModel.getTimeStart());
     }
 
     public void setTimeEnd(Calendar timeEnd) {
@@ -55,8 +62,10 @@ public class PromotionAddPresenter extends NavigatorPresenter<PromotionAddView> 
 
     public void createPromotion(String description)
     {
-        mRepository.addPromotion(description,mModel.getTimeStart().getTime().getTime()/1000,
-                mModel.getTimeEnd().getTime().getTime()/1000,mModel.getBookDescriptions());
+        if (mModel.getTimeStart()!=null && mModel.getTimeEnd()!=null) {
+            mRepository.addPromotion(description, mModel.getTimeStart().getTime().getTime() / 1000,
+                    mModel.getTimeEnd().getTime().getTime() / 1000, mModel.getBookDescriptions());
+        }
     }
 
     @Override
@@ -67,6 +76,10 @@ public class PromotionAddPresenter extends NavigatorPresenter<PromotionAddView> 
 
     @Override
     public void onAddPromotion(Promotion promotion) {
+        exit();
+    }
 
+    public void setBookDescriptions(List<PromotionAddRequest.BookDescription> descriptions) {
+        getModel().setBookDescriptions(descriptions);
     }
 }

@@ -38,6 +38,10 @@ public abstract class APaginationAdapter<
         notifyDataSetChanged();
     }
 
+    public List<Objects> getObjects() {
+        return mObjects;
+    }
+
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {

@@ -1,5 +1,6 @@
 package c.tgm.booksapplication.promotion.add;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class PromotionAddModel {
 
     private String description;
 
-    private List<PromotionAddRequest.BookDescription> bookDescriptions;
+    private List<PromotionAddRequest.BookDescription> bookDescriptions = new ArrayList<>();
 
     public Calendar getTimeStart() {
         return timeStart;

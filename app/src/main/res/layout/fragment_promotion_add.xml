@@ -38,7 +38,10 @@
                     android:id="@+id/text_time_start"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:inputType="none" />
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:clickable="true"/>
 
             </LinearLayout>
 
@@ -57,7 +60,10 @@
                     android:id="@+id/text_time_end"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:inputType="none" />
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:clickable="true" />
 
             </LinearLayout>
 

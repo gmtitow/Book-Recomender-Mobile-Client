@@ -5,7 +5,14 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import java.text.ParseException;
+import java.util.Date;
+
+import javax.sql.DataSource;
+
+import c.tgm.booksapplication.BookApplication;
 import c.tgm.booksapplication.R;
+import c.tgm.booksapplication.any.DataStore;
 import c.tgm.booksapplication.databinding.PromotionItemBinding;
 import c.tgm.booksapplication.interfaces.IEnableManager;
 import c.tgm.booksapplication.interfaces.INavigator;
@@ -26,36 +33,33 @@ public class PromotionHolder extends RecyclerView.ViewHolder {
                      final INavigator navigator, final IRemover remover, final IEnableManager enableManager,
                      boolean deleteVisible, boolean shareVisible) {
         mBinding.textDescription.setText(promotion.getDescription());
+        try {
+            Date start = DataStore.mFormatForTokenLifetime.parse(promotion.getTimeStart());
+            Date end = DataStore.mFormatForTokenLifetime.parse(promotion.getTimeEnd());
 
-        mBinding.textDate.setText("с " + promotion.getTimeStart() + " до " + promotion.getTimeEnd());
+            mBinding.textDate.setText("с " +DataStore.mFormatForDisplay.format(start) +" до " +
+                    DataStore.mFormatForDisplay.format(end));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         if (deleteVisible) {
             mBinding.button.setImageResource(R.drawable.ic_delete_black_24dp);
-            mBinding.button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (enableManager.isEnable())
-                        remover.delete(promotion.getPromotionId());
-                }
+            mBinding.button.setOnClickListener(v -> {
+                if (enableManager.isEnable())
+                    remover.delete(promotion.getPromotionId());
             });
         } else if (shareVisible){
             mBinding.button.setImageResource(R.drawable.ic_share_black);
-            mBinding.button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
+            mBinding.button.setOnClickListener(v -> {
             });
         }
         else {
             mBinding.button.setImageResource(R.drawable.ic_arrow_forward_black_24dp);
 
-            mBinding.button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (enableManager.isEnable())
-                        navigator.goById(promotion.getPromotionId());
-                }
+            mBinding.button.setOnClickListener(v -> {
+                if (enableManager.isEnable())
+                    navigator.goById(promotion.getPromotionId());
             });
         }
     }

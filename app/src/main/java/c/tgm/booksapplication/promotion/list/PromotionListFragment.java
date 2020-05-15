@@ -53,8 +53,8 @@ public class PromotionListFragment extends APaginationFragment<
 
         inflater.inflate(R.menu.promotions_menu, menu);
 
-        mShare = menu.getItem(0);
-        mDelete = menu.getItem(1);
+        mShare = menu.getItem(1);
+        mDelete = menu.getItem(2);
     }
 
     @Override

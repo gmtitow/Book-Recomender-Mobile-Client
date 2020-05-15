@@ -30,7 +30,7 @@ public class PromotionListPresenter extends APaginationPresenter<PromotionView, 
     @Override
     protected void getNewObjects(boolean add) {
         if (!getModel().isLoading()) {
-            getModel().setAdd(true);
+            getModel().setAdd(add);
             getModel().setLoading(true);
             mRepository.getPromotions(getModel().getCurPage(), getModel().getPageSize());
         }

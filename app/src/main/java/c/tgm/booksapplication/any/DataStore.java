@@ -39,6 +39,9 @@ public class DataStore {
     static public final SimpleDateFormat mFormatFromServer =
             new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ", Locale.getDefault());
     private final String DB_NAME = "rast-db";
+
+    static public final SimpleDateFormat mFormatForDisplay =
+            new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.forLanguageTag("ru"));
     
     private DaoSession sDaoSession;
     private SharedPreferences preferences;
