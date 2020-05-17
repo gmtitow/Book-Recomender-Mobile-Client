@@ -7,9 +7,9 @@ import c.tgm.booksapplication.models.data.BookInfo;
 import c.tgm.booksapplication.repositories.CommonRepo;
 
 public interface BookPresenterRepo extends CommonRepo {
-    void rememberBooks(List<Book> books);
+    default void rememberBooks(List<Book> books) {};
     
-    void rememberBook(BookInfo book);
+    default void rememberBook(BookInfo book) {};
 
     default void onUpdateRecommends(String answer){};
 }

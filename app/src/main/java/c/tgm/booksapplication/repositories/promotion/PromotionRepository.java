@@ -2,6 +2,7 @@ package c.tgm.booksapplication.repositories.promotion;
 
 import java.util.List;
 
+import c.tgm.booksapplication.models.request.promotion.BookDescription;
 import c.tgm.booksapplication.models.request.promotion.PromotionAddRequest;
 import c.tgm.booksapplication.repositories.Repository;
 
@@ -14,5 +15,5 @@ public interface PromotionRepository extends Repository {
     void deletePromotion(int promotionId);
 
     void addPromotion(String description, Long time_start, Long time_end,
-                      List<PromotionAddRequest.BookDescription> descriptions);
+                      List<BookDescription> descriptions);
 }

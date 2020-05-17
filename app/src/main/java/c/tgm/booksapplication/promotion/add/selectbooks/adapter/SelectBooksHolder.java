@@ -38,8 +38,7 @@ public class SelectBooksHolder extends RecyclerView.ViewHolder {
         mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navigator.goById(book.getBookId());
-
+                navigator.goById(book);
             }
         });
     }

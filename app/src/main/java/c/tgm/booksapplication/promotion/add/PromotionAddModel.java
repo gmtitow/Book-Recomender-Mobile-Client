@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import c.tgm.booksapplication.models.request.promotion.BookDescription;
 import c.tgm.booksapplication.models.request.promotion.PromotionAddRequest;
 
 public class PromotionAddModel {
@@ -13,7 +14,7 @@ public class PromotionAddModel {
 
     private String description;
 
-    private List<PromotionAddRequest.BookDescription> bookDescriptions = new ArrayList<>();
+    private List<BookDescription> bookDescriptions = new ArrayList<>();
 
     public Calendar getTimeStart() {
         return timeStart;
@@ -39,11 +40,11 @@ public class PromotionAddModel {
         this.description = description;
     }
 
-    public List<PromotionAddRequest.BookDescription> getBookDescriptions() {
+    public List<BookDescription> getBookDescriptions() {
         return bookDescriptions;
     }
 
-    public void setBookDescriptions(List<PromotionAddRequest.BookDescription> bookDescriptions) {
+    public void setBookDescriptions(List<BookDescription> bookDescriptions) {
         this.bookDescriptions = bookDescriptions;
     }
 }

@@ -1,5 +1,6 @@
 package c.tgm.booksapplication.interfaces;
 
 public interface IRemover {
-    void delete(int id);
+    default void delete(int id){};
+    default void delete(Object object){};
 }

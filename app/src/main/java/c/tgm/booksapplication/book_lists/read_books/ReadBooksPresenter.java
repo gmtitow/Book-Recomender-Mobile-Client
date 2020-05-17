@@ -1,5 +1,7 @@
 package c.tgm.booksapplication.book_lists.read_books;
 
+import com.arellomobile.mvp.InjectViewState;
+
 import java.util.ArrayList;
 import java.util.List;
 

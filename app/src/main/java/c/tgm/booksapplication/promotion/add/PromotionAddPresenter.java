@@ -6,15 +6,18 @@ import java.util.Calendar;
 import java.util.List;
 
 import c.tgm.booksapplication.NavigatorPresenter;
+import c.tgm.booksapplication.Screens;
 import c.tgm.booksapplication.models.data.Promotion;
+import c.tgm.booksapplication.models.request.promotion.BookDescription;
 import c.tgm.booksapplication.models.request.promotion.PromotionAddRequest;
+import c.tgm.booksapplication.promotion.add.selectbooks.IBookDescriptionRemember;
 import c.tgm.booksapplication.repositories.RepositoryCall;
 import c.tgm.booksapplication.repositories.promotion.PromotionRepo;
 import c.tgm.booksapplication.repositories.promotion.PromotionRepository;
 import c.tgm.booksapplication.repositories.promotion.PromotionRepositoryImpl;
 
 @InjectViewState
-public class PromotionAddPresenter extends NavigatorPresenter<PromotionAddView> implements PromotionRepo {
+public class PromotionAddPresenter extends NavigatorPresenter<PromotionAddView> implements PromotionRepo, IBookDescriptionRemember {
 
     private PromotionRepository mRepository;
     private PromotionAddModel mModel;
@@ -57,7 +60,7 @@ public class PromotionAddPresenter extends NavigatorPresenter<PromotionAddView> 
     }
 
     public void selectBooks() {
-
+        navigateTo(new Screens.PromotionScreens(Screens.PromotionScreens.SELECT_BOOK_SCREEN,this,getModel().getBookDescriptions()));
     }
 
     public void createPromotion(String description)
@@ -79,7 +82,12 @@ public class PromotionAddPresenter extends NavigatorPresenter<PromotionAddView> 
         exit();
     }
 
-    public void setBookDescriptions(List<PromotionAddRequest.BookDescription> descriptions) {
+    public void setBookDescriptions(List<BookDescription> descriptions) {
+        getModel().setBookDescriptions(descriptions);
+    }
+
+    @Override
+    public void rememberBookDescriptions(List<BookDescription> descriptions) {
         getModel().setBookDescriptions(descriptions);
     }
 }

@@ -2,6 +2,8 @@ package c.tgm.booksapplication;
 
 import android.support.v4.app.Fragment;
 
+import java.util.ArrayList;
+
 import c.tgm.booksapplication.authentication.authorization.AuthorizationFragment;
 import c.tgm.booksapplication.authentication.authorization.change_password.code.ChangePasswordCodeFragment;
 import c.tgm.booksapplication.authentication.authorization.change_password.login.ChangePasswordLoginFragment;
@@ -17,7 +19,10 @@ import c.tgm.booksapplication.books.list.BookListFragment;
 import c.tgm.booksapplication.books.recommends.BookRecommendsFragment;
 import c.tgm.booksapplication.models.data.BookInfo;
 import c.tgm.booksapplication.models.data.Review;
+import c.tgm.booksapplication.models.request.promotion.BookDescription;
 import c.tgm.booksapplication.promotion.add.PromotionAddFragment;
+import c.tgm.booksapplication.promotion.add.selectbooks.IBookDescriptionRemember;
+import c.tgm.booksapplication.promotion.add.selectbooks.PromotionSelectBooksFragment;
 import c.tgm.booksapplication.promotion.list.PromotionListFragment;
 import c.tgm.booksapplication.review.ReviewAddFragment;
 import c.tgm.booksapplication.review.list.ReviewListFragment;
@@ -268,6 +273,7 @@ public class Screens {
 
         public static final String LIST_SCREEN = "list_screen";
         public static final String ADD_SCREEN = "add_screen";
+        public static final String SELECT_BOOK_SCREEN = "select_book_screen";
 
         private Object data = null;
         private Object data2 = null;
@@ -294,6 +300,9 @@ public class Screens {
                     return PromotionListFragment.getInstance();
                 case ADD_SCREEN:
                     return PromotionAddFragment.getInstance();
+                case SELECT_BOOK_SCREEN:
+                    return PromotionSelectBooksFragment.getInstance((IBookDescriptionRemember) data,
+                            (ArrayList<BookDescription>)data2);
                 default:
                     throw new RuntimeException("Unknown screen key!!");
             }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import c.tgm.booksapplication.api.BookListsAPI;
 import c.tgm.booksapplication.api.PromotionAPI;
+import c.tgm.booksapplication.models.request.promotion.BookDescription;
 import c.tgm.booksapplication.models.request.promotion.PromotionAddRequest;
 import c.tgm.booksapplication.models.response.BooksResponse;
 import c.tgm.booksapplication.models.response.CommonResponse;
@@ -51,7 +52,7 @@ public class PromotionRepositoryImpl extends RepositoryImpl implements Promotion
 
     @Override
     public void addPromotion(String description, Long time_start, Long time_end,
-                             List<PromotionAddRequest.BookDescription> descriptions) {
+                             List<BookDescription> descriptions) {
         PromotionAddRequest request = new PromotionAddRequest(time_start.intValue(),time_end.intValue(),description,descriptions);
         RepositoryCallImpl call = new RepositoryCallImpl<>(mApi.add(request), PromotionResponse.class,
                 mHandler::onAddPromotion, mHandler::onError, this);
