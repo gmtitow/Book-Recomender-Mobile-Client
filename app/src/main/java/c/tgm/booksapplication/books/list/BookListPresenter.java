@@ -1,5 +1,7 @@
 package c.tgm.booksapplication.books.list;
 
+import com.arellomobile.mvp.InjectViewState;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,7 @@ import c.tgm.booksapplication.models.data.Genre;
 import c.tgm.booksapplication.models.data.GenreDao;
 import c.tgm.booksapplication.repositories.RepositoryCall;
 
+@InjectViewState
 public class BookListPresenter extends NavigatorPresenter<BookListView> implements BookPresenterRepo {
     
     protected BookListModel mModel;

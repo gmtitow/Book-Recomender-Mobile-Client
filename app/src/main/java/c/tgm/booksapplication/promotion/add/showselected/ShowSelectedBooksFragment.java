@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import c.tgm.booksapplication.AbstractFragment;
 import c.tgm.booksapplication.R;
+import c.tgm.booksapplication.Screens;
 import c.tgm.booksapplication.databinding.FragmentPromotionSelectBooksBinding;
 import c.tgm.booksapplication.databinding.FragmentShowSelectedBooksBinding;
 import c.tgm.booksapplication.interfaces.INavigator;
@@ -68,7 +69,7 @@ public class ShowSelectedBooksFragment extends AbstractFragment
     }
 
     protected int getLayoutResourceId() {
-        return R.layout.fragment_promotion_select_books;
+        return R.layout.fragment_show_selected_books;
     }
 
     public RecyclerView getRecyclerView() {
@@ -87,6 +88,13 @@ public class ShowSelectedBooksFragment extends AbstractFragment
         getRecyclerView().setLayoutManager(new LinearLayoutManager(getContext()));
 
         //
+        mBinding.buttonBack.setOnClickListener(v -> {
+            getPresenter().exit();
+        });
+
+        mBinding.buttonShowSelected.setOnClickListener(v -> {
+            getPresenter().complete();
+        });
     }
 
     @Override
@@ -116,5 +124,10 @@ public class ShowSelectedBooksFragment extends AbstractFragment
         fragment.setArguments(bundle);
 
         return fragment;
+    }
+
+    @Override
+    public String getTitle() {
+        return "Выбранные книги";
     }
 }

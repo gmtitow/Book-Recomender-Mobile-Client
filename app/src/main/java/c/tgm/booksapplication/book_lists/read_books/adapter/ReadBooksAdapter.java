@@ -46,7 +46,7 @@ public class ReadBooksAdapter extends APaginationAdapter<ReadBook, ReadBookHolde
     }
 
     @Override
-    public ReadBookHolder createNewHolder(ReadBookItemBinding binding) {
+    public ReadBookHolder createNewHolder(ReadBookItemBinding binding, int i) {
         return new ReadBookHolder(binding);
     }
 

@@ -42,7 +42,6 @@ public class BookHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View v) {
                 navigator.goById(book.getBookId());
-
             }
         });
     }

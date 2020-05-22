@@ -55,7 +55,7 @@ public class PromotionAdapter extends APaginationAdapter<Promotion,PromotionHold
     }
 
     @Override
-    public PromotionHolder createNewHolder(PromotionItemBinding binding) {
+    public PromotionHolder createNewHolder(PromotionItemBinding binding, int i ) {
         return new PromotionHolder(binding);
     }
 

@@ -3,7 +3,9 @@ package c.tgm.booksapplication.books;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import c.tgm.booksapplication.api.BooksAPI;
 import c.tgm.booksapplication.api.SomeController;
@@ -26,15 +28,16 @@ public class BookRepositoryImpl extends RepositoryImpl implements BookRepository
         mPresenter = presenter;
         mApi = getAPI(BooksAPI.class);
     }
-    
+
     @Override
-    public void getBooks(String query, Integer authorId, Long genreId, int page, int page_size) {
+    public void getBooks(String query, Integer authorId, Long genreId, List<Integer> book_ids , int page, int page_size) {
         BooksAPI api = SomeController.getGsonAPI(BooksAPI.class);
-    
+
         HashMap<String,Object> data = new HashMap<>();
         data.put("query", query);
         data.put("author_id", authorId);
         data.put("genre_id", genreId);
+        data.put("book_ids", book_ids);
         data.put("page", page);
         data.put("page_size", page_size);
 
@@ -42,6 +45,11 @@ public class BookRepositoryImpl extends RepositoryImpl implements BookRepository
         RepositoryCallImpl respCall = new RepositoryCallImpl<>(
                 call, BooksResponse.class, mPresenter::rememberBooks, mPresenter::onError, this);
         respCall.call();
+    }
+    
+    @Override
+    public void getBooks(String query, Integer authorId, Long genreId, int page, int page_size) {
+        getBooks(query,authorId,genreId,null,page,page_size);
     }
     
     @Override

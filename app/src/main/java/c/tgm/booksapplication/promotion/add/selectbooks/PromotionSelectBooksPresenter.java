@@ -8,15 +8,18 @@ import c.tgm.booksapplication.Screens;
 import c.tgm.booksapplication.books.BookPresenterRepo;
 import c.tgm.booksapplication.books.BookRepository;
 import c.tgm.booksapplication.books.BookRepositoryImpl;
+import c.tgm.booksapplication.filters.IFIlterHandler;
+import c.tgm.booksapplication.models.data.Author;
 import c.tgm.booksapplication.models.data.Book;
 import c.tgm.booksapplication.models.data.BookInfo;
+import c.tgm.booksapplication.models.data.Genre;
 import c.tgm.booksapplication.models.request.promotion.BookDescription;
 import c.tgm.booksapplication.pagination.APaginationPresenter;
 import c.tgm.booksapplication.repositories.RepositoryCall;
 
 
 public class PromotionSelectBooksPresenter extends APaginationPresenter<PromotionSelectBooksView, Book,PromotionSelectBooksModel>
-implements BookPresenterRepo {
+implements BookPresenterRepo, IFIlterHandler {
     protected BookRepository mRepository;
     protected boolean rewrite;
 
@@ -36,16 +39,27 @@ implements BookPresenterRepo {
 
     public void setBookDescriptions(List<BookDescription> descriptions) {
         getModel().setDescriptions(descriptions);
+
+        for (BookDescription description:descriptions) {
+            if (description.getType().equals(BookDescription.TYPE_BOOK))
+                getModel().getAddedBooks().add(description.getBook().getBookId());
+        }
     }
 
     public void showSelectedBooks() {
-
+        navigateTo(new Screens.PromotionScreens(
+                Screens.PromotionScreens.SHOW_SELECTED_BOOKS_SCREEN,
+                getModel().getRemember(),getModel().getDescriptions()));
     }
 
     public void addBook(Book book) {
         getModel().getDescriptions().add(new BookDescription(BookDescription.TYPE_BOOK,book,1.f));
 
         getModel().getAddedBooks().add(book.getBookId());
+
+        getModel().getObjects().remove(book);
+
+        getView().updateList(getModel().getObjects());
     }
 
     public void addDescription() {
@@ -57,8 +71,15 @@ implements BookPresenterRepo {
 
     @Override
     protected void getNewObjects(boolean add) {
-        mRepository.getBooks(getModel().getQuery(),getModel().getAuthor().getAuthorId(),
-                getModel().getGenre().getGenreId(),getModel().getCurPage(),getModel().getPageSize());
+        if (add)
+            rewrite = false;
+        else
+            rewrite = true;
+
+        mRepository.getBooks(getModel().getQuery(),getModel().getAuthor()==null?null:getModel().getAuthor().getAuthorId(),
+                getModel().getGenre()==null?null:getModel().getGenre().getGenreId(),
+                getModel().getAddedBooks(),
+                getModel().getCurPage(),getModel().getPageSize());
     }
 
     @Override
@@ -70,12 +91,41 @@ implements BookPresenterRepo {
         else
             mModel.addObjects(books);
 
-        getView().updateList(mModel.getObjects());
+        if (getView()!=null)
+            getView().updateList(mModel.getObjects());
     }
 
     @Override
     public void onError(String errorDescription, RepositoryCall call) {
         getView().showMessage(errorDescription);
         call.call();
+    }
+
+    //IFilterHandler
+    @Override
+    public void onQueryChange(String query) {
+        getModel().setQuery(query);
+
+//        mRepository.cancelRequest();
+
+        getNewObjects(false);
+    }
+
+    @Override
+    public void onGenreChange(Genre genre) {
+        getModel().setGenre(genre);
+
+//        mRepository.cancelRequest();
+
+        getNewObjects(false);
+    }
+
+    @Override
+    public void onAuthorChange(Author author) {
+        getModel().setAuthor(author);
+
+//        mRepository.cancelRequest();
+
+        getNewObjects(false);
     }
 }

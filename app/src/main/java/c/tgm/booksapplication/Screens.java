@@ -17,12 +17,19 @@ import c.tgm.booksapplication.book_lists.read_books.ReadBooksFragment;
 import c.tgm.booksapplication.books.item.BookItemFragment;
 import c.tgm.booksapplication.books.list.BookListFragment;
 import c.tgm.booksapplication.books.recommends.BookRecommendsFragment;
+import c.tgm.booksapplication.filters.FilterFragment;
+import c.tgm.booksapplication.filters.IFIlterHandler;
+import c.tgm.booksapplication.filters.author.AuthorFilterFragment;
+import c.tgm.booksapplication.filters.author.IAuthorChanger;
+import c.tgm.booksapplication.filters.genre.GenreFilterFragment;
+import c.tgm.booksapplication.filters.genre.IGenreChanger;
 import c.tgm.booksapplication.models.data.BookInfo;
 import c.tgm.booksapplication.models.data.Review;
 import c.tgm.booksapplication.models.request.promotion.BookDescription;
 import c.tgm.booksapplication.promotion.add.PromotionAddFragment;
 import c.tgm.booksapplication.promotion.add.selectbooks.IBookDescriptionRemember;
 import c.tgm.booksapplication.promotion.add.selectbooks.PromotionSelectBooksFragment;
+import c.tgm.booksapplication.promotion.add.showselected.ShowSelectedBooksFragment;
 import c.tgm.booksapplication.promotion.list.PromotionListFragment;
 import c.tgm.booksapplication.review.ReviewAddFragment;
 import c.tgm.booksapplication.review.list.ReviewListFragment;
@@ -274,6 +281,7 @@ public class Screens {
         public static final String LIST_SCREEN = "list_screen";
         public static final String ADD_SCREEN = "add_screen";
         public static final String SELECT_BOOK_SCREEN = "select_book_screen";
+        public static final String SHOW_SELECTED_BOOKS_SCREEN = "show_selected_books_screen";
 
         private Object data = null;
         private Object data2 = null;
@@ -303,6 +311,48 @@ public class Screens {
                 case SELECT_BOOK_SCREEN:
                     return PromotionSelectBooksFragment.getInstance((IBookDescriptionRemember) data,
                             (ArrayList<BookDescription>)data2);
+                case SHOW_SELECTED_BOOKS_SCREEN:
+                    return ShowSelectedBooksFragment.getInstance((IBookDescriptionRemember) data,
+                            (ArrayList<BookDescription>)data2);
+                default:
+                    throw new RuntimeException("Unknown screen key!!");
+            }
+        }
+    }
+
+    public static final class FilterScreens extends SupportAppScreen {
+
+        public static final String FILTER_SCREEN = "filter_screen";
+        public static final String FILTER_AUTHOR_SCREEN = "filter_author_screen";
+        public static final String FILTER_GENRE_SCREEN = "filter_genre_screen";
+
+        private Object data = null;
+        private Object data2 = null;
+
+        public FilterScreens(String screenkey) {
+            this.screenKey = screenkey;
+        }
+
+        public FilterScreens(String screenkey, Object data) {
+            this.screenKey = screenkey;
+            this.data = data;
+        }
+
+        public FilterScreens(String screenkey, Object data, Object data2) {
+            this.screenKey = screenkey;
+            this.data = data;
+            this.data2 = data2;
+        }
+
+        @Override
+        public Fragment getFragment() {
+            switch(getScreenKey()) {
+                case FILTER_SCREEN:
+                    return FilterFragment.getInstance((IFIlterHandler) data);
+                case FILTER_AUTHOR_SCREEN:
+                    return AuthorFilterFragment.getInstance((IAuthorChanger) data);
+                case FILTER_GENRE_SCREEN:
+                    return GenreFilterFragment.getInstance((IGenreChanger) data);
                 default:
                     throw new RuntimeException("Unknown screen key!!");
             }

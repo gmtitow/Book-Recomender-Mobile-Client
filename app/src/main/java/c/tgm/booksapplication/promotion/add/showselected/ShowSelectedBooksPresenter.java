@@ -3,6 +3,7 @@ package c.tgm.booksapplication.promotion.add.showselected;
 import java.util.List;
 
 import c.tgm.booksapplication.NavigatorPresenter;
+import c.tgm.booksapplication.Screens;
 import c.tgm.booksapplication.books.BookPresenterRepo;
 import c.tgm.booksapplication.books.BookRepository;
 import c.tgm.booksapplication.books.BookRepositoryImpl;
@@ -39,7 +40,8 @@ public class ShowSelectedBooksPresenter extends NavigatorPresenter<ShowSelectedB
         getModel().setDescriptions(descriptions);
     }
 
-    public void showSelectedBooks() {
-
+    public void complete() {
+        getModel().getRemember().rememberBookDescriptions(getModel().getDescriptions());
+        backTo(new Screens.PromotionScreens(Screens.PromotionScreens.ADD_SCREEN));
     }
 }

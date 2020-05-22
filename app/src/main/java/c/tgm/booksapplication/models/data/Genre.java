@@ -7,9 +7,13 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
 
+import java.io.Serializable;
+
 @Entity
-public class Genre {
-    
+public class Genre implements Serializable {
+
+    public static final long serialVersionUID = 536871008;
+
     @SerializedName("genre_id")
     @Expose
     @Id

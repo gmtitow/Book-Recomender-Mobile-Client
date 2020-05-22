@@ -40,16 +40,20 @@ public abstract class AbstractAdapter<
         LayoutInflater inflater = LayoutInflater.from(mContext);
         Binding binding = null;
         try {
-            binding = DataBindingUtil.inflate(inflater, getResourceToItem(), viewGroup, false);
+            binding = getBinding(inflater,viewGroup,i);
         }catch (Exception e){
             e.printStackTrace();
             throw e;
         }
 
-        return createNewHolder(binding);
+        return createNewHolder(binding,i);
     }
 
-    public abstract Holder createNewHolder(Binding binding);
+    public Binding getBinding(LayoutInflater inflater, ViewGroup viewGroup, int type) {
+        return DataBindingUtil.inflate(inflater, getResourceToItem(), viewGroup, false);
+    }
+
+    public abstract Holder createNewHolder(Binding binding, int type);
 
     public abstract int getResourceToItem();
 

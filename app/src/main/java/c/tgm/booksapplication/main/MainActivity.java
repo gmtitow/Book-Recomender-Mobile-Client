@@ -3,6 +3,7 @@ package c.tgm.booksapplication.main;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -61,6 +62,7 @@ public class MainActivity extends AbstractActivity
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         
         getPresenter().replaceScreen(new Screens.BookScreens(Screens.BookScreens.FIND_BOOK_SCREEN));
+
     
         setupViews();
     }

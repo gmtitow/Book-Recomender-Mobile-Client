@@ -22,7 +22,7 @@ public class PromotionSelectBooksAdapter extends APaginationAdapter<Book,SelectB
     }
 
     @Override
-    public SelectBooksHolder createNewHolder(SelectBookItemBinding binding) {
+    public SelectBooksHolder createNewHolder(SelectBookItemBinding binding, int i) {
         return new SelectBooksHolder(binding);
     }
 

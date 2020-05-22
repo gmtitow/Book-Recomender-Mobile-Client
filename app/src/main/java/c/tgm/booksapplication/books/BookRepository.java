@@ -1,9 +1,14 @@
 package c.tgm.booksapplication.books;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import c.tgm.booksapplication.repositories.Repository;
 
 public interface BookRepository extends Repository {
     void getBooks(String query, Integer authorId, Long genreId, int page, int page_size);
+
+    void getBooks(String query, Integer authorId, Long genreId, List<Integer> bookIds, int page, int page_size);
     
     void cancelRequest();
     
