@@ -100,7 +100,7 @@ public class PromotionListFragment extends APaginationFragment<
     @Override
     protected void initializeAdapter() {
         this.mAdapter = new PromotionAdapter(
-                getPresenter().getObjects(),getContext(),this,getPresenter().getPageSize(),
+                getPresenter().getObjects(),getActivity(),this,getPresenter().getPageSize(),
                 this,this,this);
     }
 
@@ -130,8 +130,8 @@ public class PromotionListFragment extends APaginationFragment<
     }
 
     @Override
-    public void delete(int id) {
-        getPresenter().deletePromotion(id);
+    public void delete(Object id) {
+        getPresenter().deletePromotion((int)id);
     }
 
     public static Fragment getInstance() {

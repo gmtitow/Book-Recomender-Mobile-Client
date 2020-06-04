@@ -52,7 +52,7 @@ public class DialogAddToReadFragment extends AbstractDialog<DialogAddToReadFragm
         currentListId = lists.get(0).getListId();
 
         ArrayAdapter<BookList> mListsAdapter = new ArrayAdapter(getContext(),
-                android.R.layout.simple_spinner_item, lists);
+                R.layout.spinner_item_bigger, lists);
 
 
         mSpinnerList.setAdapter(mListsAdapter);
@@ -70,7 +70,7 @@ public class DialogAddToReadFragment extends AbstractDialog<DialogAddToReadFragm
 
         Spinner mSpinnerGrades = v.findViewById(R.id.spinnerGrades);
         mSpinnerGrades.setAdapter(ArrayAdapter.createFromResource(getContext(),R.array.grades,
-                android.R.layout.simple_spinner_item));
+                R.layout.spinner_item_bigger));
 
         Button mButtonCancel =  v.findViewById(R.id.button_cancel);
         Button mButtonCreate =  v.findViewById(R.id.button_create);

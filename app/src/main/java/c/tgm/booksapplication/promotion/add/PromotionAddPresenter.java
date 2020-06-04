@@ -27,6 +27,19 @@ public class PromotionAddPresenter extends NavigatorPresenter<PromotionAddView> 
         mRepository = new PromotionRepositoryImpl(this);
     }
 
+    public void setDiscount(String discount) {
+        if (discount.isEmpty())
+            mModel.setPercents(0);
+        else {
+            try {
+                mModel.setPercents(Integer.parseInt(discount));
+            }catch (Exception e) {
+                e.printStackTrace();
+                mModel.setPercents(0);
+            }
+        }
+    }
+
     public PromotionAddModel getModel() {
         return mModel;
     }
@@ -63,8 +76,14 @@ public class PromotionAddPresenter extends NavigatorPresenter<PromotionAddView> 
         navigateTo(new Screens.PromotionScreens(Screens.PromotionScreens.SELECT_BOOK_SCREEN,this,getModel().getBookDescriptions()));
     }
 
-    public void createPromotion(String description)
+    public void createPromotion(String description, String discount)
     {
+        setDiscount(discount);
+
+        for (BookDescription bookDescription: mModel.getBookDescriptions()) {
+            bookDescription.setFactor(((float)mModel.getPercents())/(float)100);
+        }
+
         if (mModel.getTimeStart()!=null && mModel.getTimeEnd()!=null) {
             mRepository.addPromotion(description, mModel.getTimeStart().getTime().getTime() / 1000,
                     mModel.getTimeEnd().getTime().getTime() / 1000, mModel.getBookDescriptions());

@@ -107,7 +107,7 @@
     <string name="authentication_authorization_login">Email</string>
     <string name="authentication_authorization_password">Пароль</string>
     <string name="authentication_authorization_forgot_password">Забыли пароль?</string>
-    <string name="authentication_authorization_register">Зарегистрироваться?</string>
+    <string name="authentication_authorization_register">Регистрация</string>
 
     <string name="autentication_authorization_enter_social_net">Вход через социальные сети</string>
 
@@ -171,4 +171,6 @@
     <string name="date_end_early_start_error">Дата завершения акции должна быть после даты начала</string>
     <string name="task_date_end_error_today">Дата завершения акции не должна быть в прошлом</string>
     <string name="text_not_found">Результаты не найдены</string>
+    <string name="strike_string"><strike>%1$s</strike></string>
+    <string name="strike_string_2"><strike>Зачеркнуто!</strike></string>
 </resources>

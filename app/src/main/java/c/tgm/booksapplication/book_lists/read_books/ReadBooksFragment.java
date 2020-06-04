@@ -71,7 +71,7 @@ public class ReadBooksFragment extends APaginationFragment<
 
     @Override
     protected void initializeAdapter() {
-        this.mAdapter = new ReadBooksAdapter(getPresenter().getObjects(),getContext(),this,getPresenter().getPageSize(), this);
+        this.mAdapter = new ReadBooksAdapter(getPresenter().getObjects(),getActivity(),this,getPresenter().getPageSize(), this);
     }
 
     @Override

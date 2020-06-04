@@ -237,7 +237,7 @@ public class MainActivity extends AbstractActivity
                 itemBookLists.setVisible(false);
 
                 itemAuthors.setVisible(false);
-                itemFindBooks.setVisible(false);
+                itemFindBooks.setVisible(true);
                 //Для сотрудников
                 itemPromotions.setVisible(true);
             } else {

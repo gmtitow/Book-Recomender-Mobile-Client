@@ -30,6 +30,11 @@ public class RepositoryCallImpl<APIData, APIResponse extends AbstractResponse<AP
     }
 
     @Override
+    public int getAttemptsCount() {
+        return attempts;
+    }
+
+    @Override
     public void call() {
         if (attempts == 3) {
             return;

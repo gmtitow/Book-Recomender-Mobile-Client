@@ -79,7 +79,7 @@ public class GenreFilterFragment extends AbstractFragment implements GenreFilter
     }
     
     public void setupViews() {
-        mAdapter = new GenreFilterListAdapter(new ArrayList<>(), getContext(), this);
+        mAdapter = new GenreFilterListAdapter(new ArrayList<>(), getActivity(), this);
     
         mBinding.recyclerView.setAdapter(mAdapter);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

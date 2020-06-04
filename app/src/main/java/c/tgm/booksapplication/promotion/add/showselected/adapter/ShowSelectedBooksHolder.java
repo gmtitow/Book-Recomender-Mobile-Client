@@ -23,15 +23,23 @@ public class ShowSelectedBooksHolder extends RecyclerView.ViewHolder {
         this.mBinding = mBinding;
     }
 
-    public void bind(final BookDescription bookDescription, final IRemover remover) {
-        mBinding.textAuthor.setText(bookDescription.getAuthor().getFullName());
-        mBinding.textGenre.setText(bookDescription.getGenre().getGenreName());
+    public void bind(final BookDescription bookDescription, final IRemover remover, final boolean delete) {
+        if (bookDescription.getAuthor()==null)
+            mBinding.textAuthor.setText("Не выбран");
+        else
+            mBinding.textAuthor.setText(bookDescription.getAuthor().getFullName());
+        if (bookDescription.getGenre() == null)
+            mBinding.textGenre.setText("Не выбран");
+        else
+            mBinding.textGenre.setText(bookDescription.getGenre().getGenreName());
+
         mBinding.textQuery.setText(bookDescription.getQuery());
 
         mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                remover.delete(bookDescription);
+                if (delete)
+                    remover.delete(bookDescription);
             }
         });
     }

@@ -11,6 +11,8 @@ import c.tgm.booksapplication.promotion.add.selectbooks.IBookDescriptionRemember
 public class ShowSelectedBooksModel extends APaginationModel<Book> {
     private IBookDescriptionRemember remember;
 
+    private IBookDescriptionRemember rememberBack;
+
     private List<BookDescription> descriptions;
 
     public IBookDescriptionRemember getRemember() {
@@ -27,5 +29,13 @@ public class ShowSelectedBooksModel extends APaginationModel<Book> {
 
     public void setDescriptions(List<BookDescription> descriptions) {
         this.descriptions = descriptions;
+    }
+
+    public IBookDescriptionRemember getRememberBack() {
+        return rememberBack;
+    }
+
+    public void setRememberBack(IBookDescriptionRemember rememberBack) {
+        this.rememberBack = rememberBack;
     }
 }

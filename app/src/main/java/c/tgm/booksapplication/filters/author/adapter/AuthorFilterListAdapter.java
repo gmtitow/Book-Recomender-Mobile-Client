@@ -1,5 +1,6 @@
 package c.tgm.booksapplication.filters.author.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
@@ -26,7 +27,7 @@ public class AuthorFilterListAdapter extends APaginationAdapter<Author,AuthorFil
 
     private INavigator mNavigator;
 
-    public AuthorFilterListAdapter(List<Author> authors, Context context, IListLoader loader, int pageSize, INavigator mNavigator) {
+    public AuthorFilterListAdapter(List<Author> authors, Activity context, IListLoader loader, int pageSize, INavigator mNavigator) {
         super(authors, context, loader, pageSize);
         this.mNavigator = mNavigator;
     }

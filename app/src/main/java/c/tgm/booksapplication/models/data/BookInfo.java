@@ -26,7 +26,7 @@ public class BookInfo extends Book implements Serializable {
         this.reviews = reviews;
     }
     
-    public Boolean getReviewExists() {
+    public boolean getReviewExists() {
         return reviewExists;
     }
     

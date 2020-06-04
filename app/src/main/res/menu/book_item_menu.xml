@@ -4,6 +4,7 @@
     <item
         android:id="@+id/action_download"
         android:title="Загрузить"
+        android:visible="false"
         android:icon="@drawable/ic_file_download_white_24dp"
         app:showAsAction="always" />
 </menu>

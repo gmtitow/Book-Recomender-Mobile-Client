@@ -1,5 +1,6 @@
 package c.tgm.booksapplication.filters.genre.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
@@ -23,7 +24,7 @@ public class GenreFilterListAdapter extends AbstractAdapter<Genre, GenreFilterHo
 
     private INavigator mNavigator;
 
-    public GenreFilterListAdapter(List<Genre> genres, Context context, INavigator mNavigator) {
+    public GenreFilterListAdapter(List<Genre> genres, Activity context, INavigator mNavigator) {
         super(genres, context);
         this.mNavigator = mNavigator;
     }

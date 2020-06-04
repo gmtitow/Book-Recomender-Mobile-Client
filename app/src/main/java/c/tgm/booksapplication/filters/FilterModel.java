@@ -1,12 +1,15 @@
 package c.tgm.booksapplication.filters;
 
 import c.tgm.booksapplication.models.data.Author;
+import c.tgm.booksapplication.models.data.BookList;
 import c.tgm.booksapplication.models.data.Genre;
 
 public class FilterModel {
     private Genre genre;
 
     private Author author;
+
+    private BookList list;
 
     private String query;
 
@@ -42,5 +45,13 @@ public class FilterModel {
 
     public void setQuery(String query) {
         this.query = query;
+    }
+
+    public BookList getList() {
+        return list;
+    }
+
+    public void setList(BookList list) {
+        this.list = list;
     }
 }

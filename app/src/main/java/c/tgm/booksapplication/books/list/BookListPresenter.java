@@ -2,6 +2,7 @@ package c.tgm.booksapplication.books.list;
 
 import com.arellomobile.mvp.InjectViewState;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,30 +12,40 @@ import c.tgm.booksapplication.Screens;
 import c.tgm.booksapplication.books.BookPresenterRepo;
 import c.tgm.booksapplication.books.BookRepository;
 import c.tgm.booksapplication.books.BookRepositoryImpl;
+import c.tgm.booksapplication.filters.IFIlterHandler;
 import c.tgm.booksapplication.models.data.Book;
 import c.tgm.booksapplication.models.data.BookInfo;
 import c.tgm.booksapplication.models.data.Genre;
 import c.tgm.booksapplication.models.data.GenreDao;
 import c.tgm.booksapplication.repositories.RepositoryCall;
 
-@InjectViewState
-public class BookListPresenter extends NavigatorPresenter<BookListView> implements BookPresenterRepo {
+
+public class BookListPresenter extends NavigatorPresenter<BookListView> implements BookPresenterRepo, IFIlterHandler {
     
     protected BookListModel mModel;
     protected BookRepository mRepository;
+    protected FilterHandler mFilterHandler;
+
+    protected static IFIlterHandler instance;
 
     protected boolean rewrite;
     
     public BookListPresenter() {
         mModel = new BookListModel();
         mRepository = new BookRepositoryImpl(this);
+        mFilterHandler = new FilterHandler(mModel);
+        instance = this;
     }
-    
+
+    public static IFIlterHandler getFilterHandler() {
+        return instance;
+    }
+
     public void rememberAuthorId(int authorId) {
         mModel.setAuthorId(authorId);
     }
     
-    public void updateBookList(String query, boolean rewrite) {
+    public void updateBookList(boolean rewrite) {
         if(mModel.isLoading())
             mRepository.cancelRequest();
         
@@ -43,12 +54,12 @@ public class BookListPresenter extends NavigatorPresenter<BookListView> implemen
         }
         
         mModel.setLoading(true);
-        getNewBooks(query,rewrite);
+        getNewBooks(rewrite);
     }
     
-    protected void getNewBooks(String query, boolean rewrite) {
+    protected void getNewBooks(boolean rewrite) {
         this.rewrite = rewrite;
-        mRepository.getBooks(query,mModel.getAuthorId(),mModel.getGenreId(),mModel.getCurPage(),mModel.getPageSize());
+        mRepository.getBooks(mModel.getQuery(),mModel.getAuthorId(),mModel.getGenreId(),mModel.getCurPage(),mModel.getPageSize());
     }
     
     public List<Book> getBooks(){
@@ -68,32 +79,9 @@ public class BookListPresenter extends NavigatorPresenter<BookListView> implemen
             getView().updateList(mModel.getCurBooks());
     }
     
-    public void getNextPage(String query) {
+    public void getNextPage() {
         mModel.increasePage();
-        updateBookList(query, false);
-    }
-    
-    public void setGenre(Long genreId, String query) {
-        
-        if (genreId < 0)
-            genreId = null;
-        
-        if ((genreId==null && mModel.getGenreId() != null) ||
-                (genreId!= null && !genreId.equals(mModel.getGenreId()))) {
-            mModel.setGenreId(genreId);
-            updateBookList(query,true);
-        }
-    }
-    
-    public List<Genre> getGenres() {
-        GenreDao genreDao = BookApplication.INSTANCE.getDataStore().getDaoSession().getGenreDao();
-        
-        List<Genre> genres = new ArrayList<>();
-        genres.add(new Genre(-1l,"Любой жанр"));
-    
-        genres.addAll(genreDao.queryBuilder().build().list());
-        
-        return genres;
+        updateBookList(false);
     }
     
     public int getPageSize() {
@@ -117,5 +105,19 @@ public class BookListPresenter extends NavigatorPresenter<BookListView> implemen
     public void onError(String errorDescription, RepositoryCall call) {
         getView().showMessage(errorDescription);
         call.call();
+        if (call.getAttemptsCount()==3)
+            mModel.setLoading(false);
+    }
+
+    @Override
+    public void onQueryChange(String query) {
+        this.mModel.setQuery(query);
+        getNewBooks(true);
+    }
+
+    @Override
+    public void onGenreChange(Genre genre) {
+        this.mModel.setGenreId(genre.getGenreId());
+        getNewBooks(true);
     }
 }

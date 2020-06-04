@@ -1,5 +1,6 @@
 package c.tgm.booksapplication.book_lists.read_books.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
@@ -18,7 +19,7 @@ public class ReadBooksAdapter extends APaginationAdapter<ReadBook, ReadBookHolde
     private IRemover mRemover;
     private boolean mDeleteVisible = false;
 
-    public ReadBooksAdapter(List<ReadBook> readBooks, Context context, IListLoader loader, int pageSize, IRemover remover) {
+    public ReadBooksAdapter(List<ReadBook> readBooks, Activity context, IListLoader loader, int pageSize, IRemover remover) {
         super(readBooks, context, loader, pageSize);
         mRemover = remover;
     }

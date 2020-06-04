@@ -1,5 +1,6 @@
 package c.tgm.booksapplication.promotion.add.selectbooks.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
@@ -16,7 +17,7 @@ public class PromotionSelectBooksAdapter extends APaginationAdapter<Book,SelectB
 
     protected INavigator mNavigator;
 
-    public PromotionSelectBooksAdapter(List<Book> books, Context context, IListLoader loader, int pageSize, INavigator mNavigator) {
+    public PromotionSelectBooksAdapter(List<Book> books, Activity context, IListLoader loader, int pageSize, INavigator mNavigator) {
         super(books, context, loader, pageSize);
         this.mNavigator = mNavigator;
     }

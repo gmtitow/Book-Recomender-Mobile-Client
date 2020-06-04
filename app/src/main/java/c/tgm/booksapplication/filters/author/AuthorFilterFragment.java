@@ -80,7 +80,7 @@ public class AuthorFilterFragment extends AbstractFragment implements AuthorFilt
     }
     
     public void setupViews() {
-        mAdapter = new AuthorFilterListAdapter(new ArrayList<Author>(), getContext(),
+        mAdapter = new AuthorFilterListAdapter(new ArrayList<Author>(), getActivity(),
                 this,getPresenter().getPageSize(),this);
     
         mBinding.recyclerView.setAdapter(mAdapter);

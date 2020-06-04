@@ -234,7 +234,7 @@ public class PromotionAddFragment extends AbstractFragment implements PromotionA
         mBinding.btnAddPromotion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getPresenter().createPromotion(mBinding.textDescription.getText().toString());
+                getPresenter().createPromotion(mBinding.textDescription.getText().toString(),mBinding.textDiscount.getText().toString());
             }
         });
 

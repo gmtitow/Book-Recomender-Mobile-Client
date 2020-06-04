@@ -122,7 +122,8 @@ public class BookDescription implements Parcelable {
 
     public void setAuthor(Author author) {
         this.author = author;
-        setAuthor_id(author.getAuthorId());
+        if (author!=null)
+            setAuthor_id(author.getAuthorId());
     }
 
     public Genre getGenre() {
@@ -131,7 +132,8 @@ public class BookDescription implements Parcelable {
 
     public void setGenre(Genre genre) {
         this.genre = genre;
-        setGenre_id(genre.get_id().intValue());
+        if (genre!=null)
+            setGenre_id(genre.get_id().intValue());
     }
 
     protected BookDescription(Parcel in) {

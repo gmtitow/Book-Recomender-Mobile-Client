@@ -1,11 +1,14 @@
 package c.tgm.booksapplication.books.list;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import c.tgm.booksapplication.models.data.Book;
 
-public class BookListModel {
+public class BookListModel implements Serializable {
+    private String query;
+
     private Integer authorId;
     
     private Long genreId;
@@ -74,6 +77,12 @@ public class BookListModel {
     public void setLoading(boolean loading) {
         this.loading = loading;
     }
-    
-    
+
+    public String getQuery() {
+        return query;
+    }
+
+    public void setQuery(String query) {
+        this.query = query;
+    }
 }

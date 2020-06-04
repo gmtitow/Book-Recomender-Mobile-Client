@@ -32,8 +32,9 @@ public class ShowSelectedBooksPresenter extends NavigatorPresenter<ShowSelectedB
         mModel = new ShowSelectedBooksModel();
     }
 
-    public void setDescriptionRemember(IBookDescriptionRemember remember) {
+    public void setDescriptionRemembers(IBookDescriptionRemember remember, IBookDescriptionRemember rememberBack) {
         getModel().setRemember(remember);
+        getModel().setRememberBack(rememberBack);
     }
 
     public void setBookDescriptions(List<BookDescription> descriptions) {
@@ -43,5 +44,13 @@ public class ShowSelectedBooksPresenter extends NavigatorPresenter<ShowSelectedB
     public void complete() {
         getModel().getRemember().rememberBookDescriptions(getModel().getDescriptions());
         backTo(new Screens.PromotionScreens(Screens.PromotionScreens.ADD_SCREEN));
+    }
+
+    public void deleteBookDescription(BookDescription description) {
+        getModel().getDescriptions().remove(description);
+        getModel().getRememberBack().rememberBookDescriptions(getModel().getDescriptions());
+
+        if (getView()!=null)
+            getView().updateList(getModel().getDescriptions());
     }
 }

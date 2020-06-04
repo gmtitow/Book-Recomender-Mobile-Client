@@ -29,6 +29,12 @@ public class GenreFilterPresenter extends NavigatorPresenter<GenreFilterView> {
 
         List<Genre> genres = genreDAO.loadAll();
 
+        Genre emptyGenre = new Genre();
+        emptyGenre.setGenreId(-1L);
+        emptyGenre.setGenreName("Сбросить");
+
+        genres.add(0,emptyGenre);
+
         rememberGenres(genres);
     }
 
@@ -39,7 +45,10 @@ public class GenreFilterPresenter extends NavigatorPresenter<GenreFilterView> {
     }
 
     public void onSelectGenre(Genre genre) {
-        mModel.getChanger().onChangeGenre(genre);
+        if (genre.getGenreId()==-1)
+            mModel.getChanger().onChangeGenre(null);
+        else
+            mModel.getChanger().onChangeGenre(genre);
         exit();
     }
 }

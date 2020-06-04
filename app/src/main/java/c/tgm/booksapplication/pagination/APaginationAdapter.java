@@ -1,5 +1,6 @@
 package c.tgm.booksapplication.pagination;
 
+import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
@@ -24,7 +25,7 @@ public abstract class APaginationAdapter<
     protected IListLoader mLoader;
     protected int mPageSize;
 
-    public APaginationAdapter(List<Objects> objects, Context context, IListLoader loader, int pageSize)
+    public APaginationAdapter(List<Objects> objects, Activity context, IListLoader loader, int pageSize)
     {
         super(objects,context);
         mLoader = loader;

@@ -7,7 +7,8 @@ import c.tgm.booksapplication.models.data.Author;
 import c.tgm.booksapplication.models.data.Book;
 
 public class AuthorListModel {
-    
+
+    private String query;
     private Long genreId;
     
     private ArrayList<Author> curAuthors = new ArrayList<>();
@@ -85,5 +86,13 @@ public class AuthorListModel {
     
     public void setLoading(boolean loading) {
         this.loading = loading;
+    }
+
+    public String getQuery() {
+        return query;
+    }
+
+    public void setQuery(String query) {
+        this.query = query;
     }
 }

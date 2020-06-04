@@ -7,6 +7,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -20,6 +23,7 @@ import c.tgm.booksapplication.R;
 import c.tgm.booksapplication.any.CustomAppNavigator;
 import c.tgm.booksapplication.databinding.FragmentPromotionSelectBooksBinding;
 import c.tgm.booksapplication.filters.FilterFragment;
+import c.tgm.booksapplication.filters.FilterViewOptions;
 import c.tgm.booksapplication.interfaces.INavigator;
 import c.tgm.booksapplication.models.data.Book;
 import c.tgm.booksapplication.models.data.BookInfo;
@@ -45,8 +49,15 @@ public class PromotionSelectBooksFragment extends APaginationFragment<Book, Prom
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+        setHasOptionsMenu(true);
+        return view;
+    }
+
+    @Override
     protected void initializeAdapter() {
-        mAdapter = new PromotionSelectBooksAdapter(getPresenter().getObjects(), getContext(), this, getPresenter().getPageSize(), this);
+        mAdapter = new PromotionSelectBooksAdapter(getPresenter().getObjects(), getActivity(), this, getPresenter().getPageSize(), this);
     }
 
     @Override
@@ -55,7 +66,8 @@ public class PromotionSelectBooksFragment extends APaginationFragment<Book, Prom
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
-        fragmentManager.beginTransaction().replace(R.id.filterLayout, FilterFragment.getInstance(getPresenter())).commit();;
+        fragmentManager.beginTransaction().replace(R.id.filterLayout, FilterFragment.getInstance(getPresenter(),
+                new FilterViewOptions(false,false,true))).commit();;
     }
 
     @Override
@@ -99,6 +111,24 @@ public class PromotionSelectBooksFragment extends APaginationFragment<Book, Prom
                     getArguments().getParcelableArrayList(KEY_DESCRIPTIONS));
         }
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.promotion_select_book_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_add_filters:
+                getPresenter().addDescription();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public static Fragment getInstance(IBookDescriptionRemember remember,

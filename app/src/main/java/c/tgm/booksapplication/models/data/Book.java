@@ -3,9 +3,10 @@ package c.tgm.booksapplication.models.data;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Book {
+public class Book implements Serializable {
     @SerializedName("book_id")
     @Expose
     private Integer bookId;
@@ -24,11 +25,36 @@ public class Book {
     @SerializedName("rating")
     @Expose
     private Double rating;
+
+    @SerializedName("price")
+    @Expose
+    private Integer price;
+
+
+    @SerializedName("new_price")
+    @Expose
+    private Integer newPrice;
     
     @SerializedName("image_path")
     @Expose
     private String imagePath;
-    
+
+    public Integer getNewPrice() {
+        return newPrice;
+    }
+
+    public void setNewPrice(Integer newPrice) {
+        this.newPrice = newPrice;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
     public Integer getBookId() {
         return bookId;
     }

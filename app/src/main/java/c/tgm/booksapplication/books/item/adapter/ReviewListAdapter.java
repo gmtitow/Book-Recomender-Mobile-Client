@@ -1,5 +1,6 @@
 package c.tgm.booksapplication.books.item.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 
 import java.util.ArrayList;
 
@@ -25,23 +27,44 @@ public class ReviewListAdapter extends ArrayAdapter<Review> {
     private ReviewListener mReviewListener;
     private BookInfo mBookInfo;
     private View.OnClickListener mAddToReadListener;
+    private View.OnClickListener mAddReviewListener;
     private boolean mShowAddToRead;
+
+    private Button addReviewButton;
+    private Integer addReviewVisibility=null;
+    private Activity mContext;
     
-    public ReviewListAdapter(@NonNull Context context, @NonNull ArrayList<Review> objects,
+    public ReviewListAdapter(@NonNull Activity context, @NonNull ArrayList<Review> objects,
                              int currentUserId, ReviewListener listener, BookInfo bookInfo, View.OnClickListener addToReadListener,
-                             boolean showAddToRead) {
+                             View.OnClickListener addReviewListener, boolean showAddToRead) {
         super(context, R.layout.review_list_item, objects);
         
         mCurrentUserId = currentUserId;
         mReviewListener = listener;
         mBookInfo = bookInfo;
         mAddToReadListener = addToReadListener;
+        mAddReviewListener = addReviewListener;
         mShowAddToRead = showAddToRead;
+        mContext = context;
+    }
+
+    public int getAddReviewVisibility() {
+        return addReviewVisibility;
+    }
+
+    public void setAddReviewVisibility(int addReviewVisibility) {
+        this.addReviewVisibility = addReviewVisibility;
+        if (addReviewButton!=null)
+            addReviewButton.setVisibility(addReviewVisibility);
     }
 
     public void setShowAddToRead(boolean show) {
         mShowAddToRead = show;
         notifyDataSetChanged();
+    }
+
+    public Button getReviewAddButton() {
+        return addReviewButton;
     }
     
     public BookInfo getBookInfo() {
@@ -86,10 +109,15 @@ public class ReviewListAdapter extends ArrayAdapter<Review> {
     
             mBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()),
                     R.layout.book_info_full, null, false);
-            
+
+            addReviewButton = mBinding.btnAddReview;
+
+            if (addReviewVisibility!=null)
+                addReviewButton.setVisibility(addReviewVisibility);
+
             BookInfoFullHolder holder = new BookInfoFullHolder(mBinding);
     
-            holder.bind(mBookInfo, getContext(), mAddToReadListener,mShowAddToRead);
+            holder.bind(mBookInfo, mContext, mAddToReadListener,mAddReviewListener,mShowAddToRead);
             
             return mBinding.getRoot();
         }

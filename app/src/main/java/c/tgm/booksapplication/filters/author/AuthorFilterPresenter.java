@@ -55,7 +55,14 @@ public class AuthorFilterPresenter extends NavigatorPresenter<AuthorFilterView> 
     @Override
     public void rememberAuthors(List<Author> authors, boolean rewrite) {
         mModel.setLoading(false);
-        
+
+        Author emptyAuthor = new Author();
+
+        emptyAuthor.setAuthorId(-1);
+        emptyAuthor.setFullName("Сбросить");
+
+        authors.add(0,emptyAuthor);
+
         if (rewrite)
             mModel.setCurAuthors(authors);
         else
@@ -80,7 +87,10 @@ public class AuthorFilterPresenter extends NavigatorPresenter<AuthorFilterView> 
     }
 
     public void onSelectAuthor(Author author) {
-        mModel.getChanger().onChangeAuthor(author);
+        if (author.getAuthorId()==-1)
+            mModel.getChanger().onChangeAuthor(null);
+        else
+            mModel.getChanger().onChangeAuthor(author);
         exit();
     }
 }

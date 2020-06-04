@@ -48,7 +48,7 @@ public class RegistrationRepositoryImpl implements RegistrationRepository {
                     resp = response.body();
                 }
     
-                if (!resp.getSuccess().equals(true)) {
+                if (resp.getSuccess()==null || !resp.getSuccess().equals(true)) {
                     EventBus.getDefault().post(new RegisterErrorEvent((resp.getErrorDescription().isEmpty() ?
                             unknownError: resp.getErrorDescription() ),resp.getError()));
                 } else {
@@ -95,7 +95,7 @@ public class RegistrationRepositoryImpl implements RegistrationRepository {
                     resp = response.body();
                 }
                 
-                if (!resp.getSuccess().equals(true)) {
+                if (resp.getSuccess()==null||!resp.getSuccess().equals(true)) {
                     EventBus.getDefault().post(new RegisterActivationErrorEvent(resp.getErrorDescription().isEmpty() ?
                             unknownError: resp.getErrorDescription() ));
                 } else {

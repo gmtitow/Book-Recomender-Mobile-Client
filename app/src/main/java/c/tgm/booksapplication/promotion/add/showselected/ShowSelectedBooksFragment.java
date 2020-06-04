@@ -8,6 +8,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -15,6 +18,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.PresenterType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import c.tgm.booksapplication.AbstractFragment;
 import c.tgm.booksapplication.R;
@@ -33,6 +37,7 @@ import c.tgm.booksapplication.promotion.add.showselected.adapter.ShowSelectedBoo
 public class ShowSelectedBooksFragment extends AbstractFragment
         implements IRemover, ShowSelectedBooksView {
     private static final String KEY_REMEMBER = "remember";
+    private static final String KEY_REMEMBER_BACK = "remember_back";
     private static final String KEY_DESCRIPTIONS = "book_descriptions";
 
     FragmentShowSelectedBooksBinding mBinding;
@@ -48,7 +53,13 @@ public class ShowSelectedBooksFragment extends AbstractFragment
     }
 
     protected void initializeAdapter() {
-        mAdapter = new ShowSelectedBooksAdapter(getPresenter().getModel().getDescriptions(), getContext(), this);
+        mAdapter = new ShowSelectedBooksAdapter(getPresenter().getModel().getDescriptions(), getActivity(), this);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -98,15 +109,37 @@ public class ShowSelectedBooksFragment extends AbstractFragment
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Object bookDescription) {
+        getPresenter().deleteBookDescription((BookDescription) bookDescription);
+    }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.promotions_selected_books_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_delete:{
+                mAdapter.changeDelete();
+                if (mAdapter.isDeleteVisible())
+                    item.setIcon(R.drawable.ic_close);
+                else
+                    item.setIcon(R.drawable.ic_delete);
+            }
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     protected void beforeSetupView() {
-        if (getArguments() != null && getArguments().containsKey(KEY_REMEMBER)) {
-            getPresenter().setDescriptionRemember(
-                    (IBookDescriptionRemember) getArguments().getSerializable(KEY_REMEMBER));
-        }
+        IBookDescriptionRemember remember = (IBookDescriptionRemember) getArguments().getSerializable(KEY_REMEMBER);
+        IBookDescriptionRemember rememberBack = (IBookDescriptionRemember) getArguments().getSerializable(KEY_REMEMBER_BACK);
+
+        getPresenter().setDescriptionRemembers(remember,rememberBack);
 
         if (getArguments() != null && getArguments().containsKey(KEY_DESCRIPTIONS)) {
             getPresenter().setBookDescriptions(
@@ -114,10 +147,11 @@ public class ShowSelectedBooksFragment extends AbstractFragment
         }
     }
 
-    public static Fragment getInstance(IBookDescriptionRemember remember,
+    public static Fragment getInstance(IBookDescriptionRemember remember,IBookDescriptionRemember rememberBack,
                                        ArrayList<BookDescription> descriptions) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(KEY_REMEMBER, remember);
+        bundle.putSerializable(KEY_REMEMBER_BACK, rememberBack);
         bundle.putParcelableArrayList(KEY_DESCRIPTIONS, descriptions);
         Fragment fragment = new ShowSelectedBooksFragment();
 
@@ -129,5 +163,10 @@ public class ShowSelectedBooksFragment extends AbstractFragment
     @Override
     public String getTitle() {
         return "Выбранные книги";
+    }
+
+    @Override
+    public void updateList(List<BookDescription> descriptions) {
+        mAdapter.setObjects(descriptions);
     }
 }

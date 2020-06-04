@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,14 +26,17 @@ import c.tgm.booksapplication.R;
 import c.tgm.booksapplication.books.list.BookListFragment;
 import c.tgm.booksapplication.books.list.BookListPresenter;
 import c.tgm.booksapplication.books.list.adapter.BookListAdapter;
+import c.tgm.booksapplication.databinding.FragmentBookListBinding;
 import c.tgm.booksapplication.databinding.FragmentRecommendListBinding;
+import c.tgm.booksapplication.filters.FilterFragment;
+import c.tgm.booksapplication.filters.FilterViewOptions;
 import c.tgm.booksapplication.models.data.Book;
 import c.tgm.booksapplication.models.data.BookList;
 import c.tgm.booksapplication.models.data.Genre;
 
 public class BookRecommendsFragment extends BookListFragment {
 
-    FragmentRecommendListBinding mBinding;
+    FragmentBookListBinding mBinding;
     @InjectPresenter(type = PresenterType.LOCAL)
     BookRecommendsPresenter mPresenter;
     
@@ -54,13 +58,18 @@ public class BookRecommendsFragment extends BookListFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_recommend_list, container, false);
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_book_list, container, false);
         return mBinding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+        fragmentManager.beginTransaction().replace(R.id.filterLayout, FilterFragment.getInstance(getPresenter(),
+                new FilterViewOptions(true,false,false))).commit();
 
         if(getArguments()!= null && getArguments().containsKey(AUTHOR_ID)){
             getPresenter().rememberAuthorId(getArguments().getInt(AUTHOR_ID));
@@ -69,62 +78,15 @@ public class BookRecommendsFragment extends BookListFragment {
         setupViews();
 
         if (getPresenter().getBooks().size()==0)
-            getPresenter().updateBookList(mBinding.searchView.getQuery().toString(), false);
+            getPresenter().updateBookList(false);
     }
 
     @Override
     public void setupViews() {
-        mAdapter = new BookListAdapter(getContext(),getPresenter().getBooks(),this,this,getPresenter().getPageSize());
+        mAdapter = new BookListAdapter(getActivity(),getPresenter().getBooks(),this,this,getPresenter().getPageSize());
 
         mBinding.recyclerView.setAdapter(mAdapter);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        mBinding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                getPresenter().updateBookList(query,true);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-
-//        mGenreAdapter = new GenreAdapter(getContext(),getPresenter().getGenres());
-
-        mGenreAdapter = new ArrayAdapter(getContext(),
-                android.R.layout.simple_spinner_item, getPresenter().getGenres());
-
-
-        mBinding.spinnerGenres.setAdapter(mGenreAdapter);
-        mBinding.spinnerGenres.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view,
-                                       int position, long id) {
-                getPresenter().setGenre(((Genre)adapterView.getSelectedItem()).getGenreId(),mBinding.searchView.getQuery().toString());
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapter) {  }
-        });
-
-        ArrayAdapter mListAdapter = new ArrayAdapter(getContext(),
-                android.R.layout.simple_spinner_item, getPresenter().getBookLists());
-
-
-        mBinding.spinnerLists.setAdapter(mListAdapter);
-        mBinding.spinnerLists.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view,
-                                       int position, long id) {
-                getPresenter().setListId(((BookList)adapterView.getSelectedItem()).getListId(),mBinding.searchView.getQuery().toString());
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapter) {  }
-        });
     }
 
     @Override
@@ -148,7 +110,7 @@ public class BookRecommendsFragment extends BookListFragment {
 
     @Override
     public void loadNext() {
-        getPresenter().getNextPage(mBinding.searchView.getQuery().toString());
+        getPresenter().getNextPage();
     }
 
     public static Fragment getInstance() {

@@ -1,5 +1,6 @@
 package c.tgm.booksapplication.promotion.list.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
@@ -47,7 +48,7 @@ public class PromotionAdapter extends APaginationAdapter<Promotion,PromotionHold
         this.mShareVisible = !this.mShareVisible;
     }
 
-    public PromotionAdapter(List<Promotion> promotions, Context context, IListLoader loader, int pageSize, INavigator mNavigator, IRemover mRemover, IEnableManager mEnableManager) {
+    public PromotionAdapter(List<Promotion> promotions, Activity context, IListLoader loader, int pageSize, INavigator mNavigator, IRemover mRemover, IEnableManager mEnableManager) {
         super(promotions, context, loader, pageSize);
         this.mNavigator = mNavigator;
         this.mRemover = mRemover;

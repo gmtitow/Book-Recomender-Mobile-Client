@@ -14,7 +14,17 @@ public class PromotionAddModel {
 
     private String description;
 
+    private Integer percents;
+
     private List<BookDescription> bookDescriptions = new ArrayList<>();
+
+    public Integer getPercents() {
+        return percents;
+    }
+
+    public void setPercents(Integer percents) {
+        this.percents = percents;
+    }
 
     public Calendar getTimeStart() {
         return timeStart;

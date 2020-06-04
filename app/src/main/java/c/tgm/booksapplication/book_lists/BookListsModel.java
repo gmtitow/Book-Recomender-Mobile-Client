@@ -1,11 +1,12 @@
 package c.tgm.booksapplication.book_lists;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import c.tgm.booksapplication.models.data.BookList;
 
-public class BookListsModel {
+public class BookListsModel implements Serializable {
 
     private List<BookList> curLists = new ArrayList<>();
 

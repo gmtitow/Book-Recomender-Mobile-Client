@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,8 @@ import java.util.ArrayList;
 import c.tgm.booksapplication.AbstractFragment;
 import c.tgm.booksapplication.R;
 import c.tgm.booksapplication.authors.list.adapter.AuthorListAdapter;
+import c.tgm.booksapplication.filters.FilterFragment;
+import c.tgm.booksapplication.filters.FilterViewOptions;
 import c.tgm.booksapplication.interfaces.IListLoader;
 import c.tgm.booksapplication.interfaces.INavigator;
 import c.tgm.booksapplication.databinding.FragmentBookListBinding;
@@ -37,7 +40,6 @@ public class AuthorListFragment extends AbstractFragment implements AuthorListVi
     FragmentBookListBinding mBinding;
     
     AuthorListAdapter mAdapter;
-    ArrayAdapter mGenreAdapter;
     
     @Override
     public String getTitle() {
@@ -70,10 +72,15 @@ public class AuthorListFragment extends AbstractFragment implements AuthorListVi
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        
+
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+        fragmentManager.beginTransaction().replace(R.id.filterLayout, FilterFragment.getInstance(getPresenter(),
+                new FilterViewOptions(true,false,true))).commit();
+
         setupViews();
         
-        getPresenter().updateAuthorList(mBinding.searchView.getQuery().toString(), false);
+        getPresenter().updateAuthorList(false);
     }
     
     public void setupViews() {
@@ -82,37 +89,6 @@ public class AuthorListFragment extends AbstractFragment implements AuthorListVi
     
         mBinding.recyclerView.setAdapter(mAdapter);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        
-        mBinding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                getPresenter().updateAuthorList(query,true);
-                return false;
-            }
-    
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-    
-//        mGenreAdapter = new GenreAdapter(getContext(),getPresenter().getGenres());
-    
-        mGenreAdapter = new ArrayAdapter(getContext(),
-                android.R.layout.simple_spinner_item, getPresenter().getGenres());
-    
-        
-        mBinding.spinner.setAdapter(mGenreAdapter);
-        mBinding.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view,
-                                       int position, long id) {
-                getPresenter().setGenre(((Genre)adapterView.getSelectedItem()).getGenreId(),mBinding.searchView.getQuery().toString());
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapter) {  }
-        });
     }
     
     public static Fragment getInstance() {
@@ -140,7 +116,7 @@ public class AuthorListFragment extends AbstractFragment implements AuthorListVi
     
     @Override
     public void loadNext() {
-        getPresenter().getNextPage(mBinding.searchView.getQuery().toString());
+        getPresenter().getNextPage();
     }
     
     @Override

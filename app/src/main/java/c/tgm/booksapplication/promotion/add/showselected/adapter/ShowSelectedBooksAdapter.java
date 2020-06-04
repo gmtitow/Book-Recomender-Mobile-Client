@@ -1,5 +1,6 @@
 package c.tgm.booksapplication.promotion.add.showselected.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
@@ -26,10 +27,29 @@ public class ShowSelectedBooksAdapter extends AbstractAdapter<BookDescription, R
 implements INavigator {
 
     protected IRemover mRemover;
+    private boolean mDeleteVisible = false;
 
-    public ShowSelectedBooksAdapter(List<BookDescription> bookDescriptions, Context context, IRemover mRemover) {
+
+    public void setDelete(boolean deleteVisible) {
+        if (deleteVisible == this.mDeleteVisible)
+            return;
+
+        this.mDeleteVisible = deleteVisible;
+        notifyDataSetChanged();
+    }
+
+    public void changeDelete() {
+        this.mDeleteVisible = !this.mDeleteVisible;
+        notifyDataSetChanged();
+    }
+
+    public ShowSelectedBooksAdapter(List<BookDescription> bookDescriptions, Activity context, IRemover mRemover) {
         super(bookDescriptions, context);
         this.mRemover = mRemover;
+    }
+
+    public boolean isDeleteVisible() {
+        return mDeleteVisible;
     }
 
     @Override
@@ -54,9 +74,9 @@ implements INavigator {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder selectBooksHolder, int position) {
         if (getItemViewType(position)==0) {
-            ((BookHolder)selectBooksHolder).bindGood(getObjects().get(position).getBook(),this,mContext);
+            ((BookHolder)selectBooksHolder).bindGood(getObjects().get(position),this,mContext, mDeleteVisible);
         } else {
-            ((ShowSelectedBooksHolder)selectBooksHolder).bind(getObjects().get(position), mRemover);
+            ((ShowSelectedBooksHolder)selectBooksHolder).bind(getObjects().get(position), mRemover, mDeleteVisible);
         }
 
     }

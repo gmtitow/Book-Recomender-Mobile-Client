@@ -3,6 +3,7 @@ package c.tgm.booksapplication.repositories;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;

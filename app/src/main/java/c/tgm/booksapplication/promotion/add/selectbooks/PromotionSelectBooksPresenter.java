@@ -2,6 +2,7 @@ package c.tgm.booksapplication.promotion.add.selectbooks;
 
 import com.arellomobile.mvp.InjectViewState;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import c.tgm.booksapplication.Screens;
@@ -19,7 +20,7 @@ import c.tgm.booksapplication.repositories.RepositoryCall;
 
 
 public class PromotionSelectBooksPresenter extends APaginationPresenter<PromotionSelectBooksView, Book,PromotionSelectBooksModel>
-implements BookPresenterRepo, IFIlterHandler {
+implements BookPresenterRepo, IFIlterHandler, IBookDescriptionRemember {
     protected BookRepository mRepository;
     protected boolean rewrite;
 
@@ -40,7 +41,12 @@ implements BookPresenterRepo, IFIlterHandler {
     public void setBookDescriptions(List<BookDescription> descriptions) {
         getModel().setDescriptions(descriptions);
 
-        for (BookDescription description:descriptions) {
+        recountAddedBooks();
+    }
+
+    private void recountAddedBooks() {
+        getModel().setAddedBooks(new ArrayList<>());
+        for (BookDescription description:getModel().getDescriptions()) {
             if (description.getType().equals(BookDescription.TYPE_BOOK))
                 getModel().getAddedBooks().add(description.getBook().getBookId());
         }
@@ -49,7 +55,7 @@ implements BookPresenterRepo, IFIlterHandler {
     public void showSelectedBooks() {
         navigateTo(new Screens.PromotionScreens(
                 Screens.PromotionScreens.SHOW_SELECTED_BOOKS_SCREEN,
-                getModel().getRemember(),getModel().getDescriptions()));
+                getModel().getRemember(),this,getModel().getDescriptions()));
     }
 
     public void addBook(Book book) {
@@ -66,6 +72,9 @@ implements BookPresenterRepo, IFIlterHandler {
         getModel().getDescriptions().add(new BookDescription(
                 BookDescription.TYPE_DESCRIPTION,getModel().getAuthor(),
                 getModel().getGenre(),getModel().getQuery(),1.f));
+
+        if (getView()!=null)
+            getView().showMessage("Все книги с данным фильтром были добавлены");
     }
 
 
@@ -127,5 +136,11 @@ implements BookPresenterRepo, IFIlterHandler {
 //        mRepository.cancelRequest();
 
         getNewObjects(false);
+    }
+
+    @Override
+    public void rememberBookDescriptions(List<BookDescription> descriptions) {
+        getModel().setDescriptions(descriptions);
+        recountAddedBooks();
     }
 }

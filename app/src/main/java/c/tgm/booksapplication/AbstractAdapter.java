@@ -1,5 +1,6 @@
 package c.tgm.booksapplication;
 
+import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
@@ -16,10 +17,10 @@ public abstract class AbstractAdapter<
         Binding extends ViewDataBinding
         > extends RecyclerView.Adapter<Holder> {
 
-    protected Context mContext;
+    protected Activity mContext;
     protected List<Objects> mObjects;
 
-    public AbstractAdapter(List<Objects> objects, Context context)
+    public AbstractAdapter(List<Objects> objects, Activity context)
     {
         mObjects = objects;
         mContext = context;

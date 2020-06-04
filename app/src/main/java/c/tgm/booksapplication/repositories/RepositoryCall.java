@@ -8,4 +8,6 @@ import retrofit2.Call;
 public interface RepositoryCall {
 
     void call();
+
+    int getAttemptsCount();
 }

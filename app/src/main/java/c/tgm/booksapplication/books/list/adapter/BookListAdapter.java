@@ -1,5 +1,6 @@
 package c.tgm.booksapplication.books.list.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
@@ -22,12 +23,12 @@ import c.tgm.booksapplication.models.data.Book;
 public class BookListAdapter extends RecyclerView.Adapter<BookHolder> {
     
     private List<Book> mBooks;
-    private Context mContext;
+    private Activity mContext;
     private IListLoader mLoader;
     private INavigator mNavigator;
     private int mPageSize;
     
-    public BookListAdapter(Context context, List<Book> books, IListLoader loader,INavigator navigator, int pageSize)
+    public BookListAdapter(Activity context, List<Book> books, IListLoader loader,INavigator navigator, int pageSize)
     {
         mBooks = books;
         mContext = context;

@@ -18,9 +18,12 @@ import c.tgm.booksapplication.books.item.BookItemFragment;
 import c.tgm.booksapplication.books.list.BookListFragment;
 import c.tgm.booksapplication.books.recommends.BookRecommendsFragment;
 import c.tgm.booksapplication.filters.FilterFragment;
+import c.tgm.booksapplication.filters.FilterViewOptions;
 import c.tgm.booksapplication.filters.IFIlterHandler;
 import c.tgm.booksapplication.filters.author.AuthorFilterFragment;
 import c.tgm.booksapplication.filters.author.IAuthorChanger;
+import c.tgm.booksapplication.filters.booklist.BookListFilterFragment;
+import c.tgm.booksapplication.filters.booklist.IBookListChanger;
 import c.tgm.booksapplication.filters.genre.GenreFilterFragment;
 import c.tgm.booksapplication.filters.genre.IGenreChanger;
 import c.tgm.booksapplication.models.data.BookInfo;
@@ -285,6 +288,7 @@ public class Screens {
 
         private Object data = null;
         private Object data2 = null;
+        private Object data3 = null;
 
         public PromotionScreens(String screenkey) {
             this.screenKey = screenkey;
@@ -301,6 +305,13 @@ public class Screens {
             this.data2 = data2;
         }
 
+        public PromotionScreens(String screenkey, Object data, Object data2, Object data3) {
+            this.screenKey = screenkey;
+            this.data = data;
+            this.data2 = data2;
+            this.data3 = data3;
+        }
+
         @Override
         public Fragment getFragment() {
             switch(getScreenKey()) {
@@ -313,7 +324,8 @@ public class Screens {
                             (ArrayList<BookDescription>)data2);
                 case SHOW_SELECTED_BOOKS_SCREEN:
                     return ShowSelectedBooksFragment.getInstance((IBookDescriptionRemember) data,
-                            (ArrayList<BookDescription>)data2);
+                            (IBookDescriptionRemember) data2,
+                            (ArrayList<BookDescription>)data3);
                 default:
                     throw new RuntimeException("Unknown screen key!!");
             }
@@ -325,6 +337,7 @@ public class Screens {
         public static final String FILTER_SCREEN = "filter_screen";
         public static final String FILTER_AUTHOR_SCREEN = "filter_author_screen";
         public static final String FILTER_GENRE_SCREEN = "filter_genre_screen";
+        public static final String FILTER_BOOK_LIST_SCREEN = "filter_book_list_screen";
 
         private Object data = null;
         private Object data2 = null;
@@ -348,11 +361,15 @@ public class Screens {
         public Fragment getFragment() {
             switch(getScreenKey()) {
                 case FILTER_SCREEN:
+                    if (data2!=null)
+                        return FilterFragment.getInstance((IFIlterHandler) data,(FilterViewOptions) data2);
                     return FilterFragment.getInstance((IFIlterHandler) data);
                 case FILTER_AUTHOR_SCREEN:
                     return AuthorFilterFragment.getInstance((IAuthorChanger) data);
                 case FILTER_GENRE_SCREEN:
                     return GenreFilterFragment.getInstance((IGenreChanger) data);
+                case FILTER_BOOK_LIST_SCREEN:
+                    return BookListFilterFragment.getInstance((IBookListChanger) data);
                 default:
                     throw new RuntimeException("Unknown screen key!!");
             }
