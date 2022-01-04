@@ -122,6 +122,8 @@ public class ReviewAddFragment  extends AbstractFragment implements ReviewAddVie
         mBinding.textReview.setText(review.getReviewText());
         
         mBinding.addReview.setText(getString(R.string.edit_review));
+
+        getActivity().setTitle(getTitle());
     }
     
     @Override

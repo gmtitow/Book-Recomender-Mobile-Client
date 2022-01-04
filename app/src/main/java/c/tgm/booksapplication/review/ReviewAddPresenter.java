@@ -66,10 +66,10 @@ public class ReviewAddPresenter extends NavigatorPresenter<ReviewAddView> implem
     }
     
     public void setChangeReview(Review review) {
-        if (getView()!=null)
-            getView().setReview(review);
-        
         mModel.setEdit(true);
         mModel.setReviewId(review.getReviewId());
+
+        if (getView()!=null)
+            getView().setReview(review);
     }
 }

@@ -142,6 +142,11 @@ public class PromotionListFragment extends APaginationFragment<
     public void setEnable(boolean enable) {
         mEnabled = enable;
     }
+
+    @Override
+    public String getTitle() {
+        return "Акции";
+    }
 }
 
 

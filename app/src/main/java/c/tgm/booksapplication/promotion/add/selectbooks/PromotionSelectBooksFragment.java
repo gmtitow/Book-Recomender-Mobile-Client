@@ -145,6 +145,6 @@ public class PromotionSelectBooksFragment extends APaginationFragment<Book, Prom
 
     @Override
     public String getTitle() {
-        return "Выберете книги";
+        return "Выберите книги";
     }
 }
